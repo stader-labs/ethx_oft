@@ -1,0 +1,38 @@
+[profile.default]
+solc-version = '0.8.22'
+src = 'contracts'
+out = 'out'
+test = 'test/foundry'
+cache_path = 'cache'
+libs = [
+    # We provide a set of useful contract utilities
+    # in the lib directory of @layerzerolabs/toolbox-foundry:
+    # 
+    # - forge-std
+    # - ds-test
+    # - solidity-bytes-utils
+    'node_modules/@layerzerolabs/toolbox-foundry/lib',
+    'node_modules',
+]
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+[fmt] # See https://book.getfoundry.sh/reference/config/formatter
+int_types = "long"
+line_length = 120
+bracket_spacing = true
+multiline_func_header = "all"
+number_underscore = "thousands"
+quote_style = "double"
+tab_width = 4
+wrap_comments = true
+
+remappings = [
+    # Due to a misconfiguration of solidity-bytes-utils, an outdated version
+    # of forge-std is being dragged in
+    # 
+    # To remedy this, we'll remap the ds-test and forge-std imports to ou own versions
+    'ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test',
+    'forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std',
+    '@layerzerolabs/=node_modules/@layerzerolabs/',
+    '@openzeppelin/=node_modules/@openzeppelin/',
+]
