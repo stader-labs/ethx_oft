@@ -1,19 +1,21 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: GNU-3.0-or-later
 pragma solidity 0.8.22;
 
-import { IERC20Metadata, IERC20 } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
 
-interface IERC20Burnable is IERC20 {
-    function burnFrom(address account, uint256 amount) external;
+import { OFTCore, Origin } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
 
-    function mint(address to, uint256 amount) external;
-}
+import { IERC20Burnable } from "./IERC20Burnable.sol";
+import { IPausable } from "./IPausable.sol";
 
 contract ETHx_OFT is OFTCore {
     using SafeERC20 for IERC20;
+
+    event Pause(uint32 srcEid);
+    event Unpause(uint32 srcEid);
 
     IERC20Burnable internal immutable ETHx;
 
@@ -33,6 +35,20 @@ contract ETHx_OFT is OFTCore {
      */
     function token() public view virtual override returns (address) {
         return address(ETHx);
+    }
+
+    /**
+     * pause the oft
+     */
+    function pause() public onlyOwner {
+        ETHx.pause();
+    }
+
+    /**
+     * unpause the oft
+     */
+    function unpause() public onlyOwner {
+        ETHx.unpause();
     }
 
     function approvalRequired() external pure returns (bool) {
@@ -89,5 +105,28 @@ contract ETHx_OFT is OFTCore {
         ETHx.mint(_to, _amountLD);
         // @dev In the case of NON-default OFT, the _amountLD MIGHT not be == amountReceivedLD.
         return _amountLD;
+    }
+
+    function _lzReceive(
+        Origin calldata _origin, // struct containing info about the message sender
+        bytes32 _guid, // global packet identifier
+        bytes calldata _payload, // encoded message payload being received
+        address _executor, // the Executor address.
+        bytes calldata _extraData // arbitrary data appended by the Executor
+    )
+        internal
+        virtual
+        override
+    {
+        bytes4 signature = abi.decode(_payload, (bytes4));
+        if (signature == IPausable.pause.selector) {
+            pause();
+            emit Pause(_origin.srcEid);
+        } else if (signature == IPausable.unpause.selector) {
+            unpause();
+            emit Unpause(_origin.srcEid);
+        } else {
+            super._lzReceive(_origin, _guid, _payload, _executor, _extraData);
+        }
     }
 }

@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity 0.8.22;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import { ERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import { AccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
+
+import { IERC20Burnable } from "./IERC20Burnable.sol";
 
 /**
  * @title ETHx token Contract for L2s
  * @author Stader Labs
  * @notice The ERC20 contract for the ETHx token
  */
-contract ETHx is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessControlUpgradeable {
+contract ETHx is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessControlUpgradeable, IERC20Burnable {
     error ZeroAddress();
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");

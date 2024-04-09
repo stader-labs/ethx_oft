@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 // Mock imports
-import { OFTMock } from "../mocks/OFTMock.sol";
-import { ERC20Mock } from "../mocks/ERC20Mock.sol";
-import { OFTComposerMock } from "../mocks/OFTComposerMock.sol";
+import { OFTMock } from "./mocks/OFTMock.sol";
+import { ERC20Mock } from "./mocks/ERC20Mock.sol";
+import { OFTComposerMock } from "./mocks/OFTComposerMock.sol";
 
 // OApp imports
 import {
@@ -28,7 +28,7 @@ import "forge-std/console.sol";
 // DevTools imports
 import { TestHelperOz5 } from "@layerzerolabs/test-devtools-evm-foundry/contracts/TestHelperOz5.sol";
 
-contract MyOFTTest is TestHelperOz5 {
+contract ETHxOFTTest is TestHelperOz5 {
     using OptionsBuilder for bytes;
 
     uint32 aEid = 1;
