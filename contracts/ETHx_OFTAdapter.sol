@@ -4,13 +4,20 @@ pragma solidity 0.8.22;
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 import { OFTAdapter } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTAdapter.sol";
-import { OptionsBuilder } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oapp/libs/OptionsBuilder.sol";
-import { MessagingFee } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
+import {
+    MessagingFee,
+    MessagingReceipt
+} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
 
 import { IPausable } from "./IPausable.sol";
+import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 
 /// @dev contract used for Origin chain where the token is already deployed
-contract ETHx_OFTAdapter is OFTAdapter {
+contract ETHx_OFTAdapter is OFTAdapter, IPausable {
+    error AdapterPaused();
+
+    bool public isPaused;
+
     constructor(
         address _token,
         address _lzEndpoint,
@@ -18,36 +25,49 @@ contract ETHx_OFTAdapter is OFTAdapter {
     )
         OFTAdapter(_token, _lzEndpoint, _delegate)
         Ownable(_delegate)
-    { }
-
-    /**
-     * pause the OFT on the destination chain
-     * @param _dstEid the destination chain Id
-     * @param _lzReceiveGas the amount of gas to send to the LZ endpoint
-     */
-    function pause(uint32 _dstEid, uint128 _lzReceiveGas) external payable {
-        _send(_dstEid, IPausable.pause.selector, _lzReceiveGas);
+    {
+        isPaused = false;
     }
 
     /**
-     * unpause the OFT on the destination chain
-     * @param _dstEid the destination chain Id
-     * @param _lzReceiveGas the amount of gas to send to the LZ endpoint
+     * @notice Returns whether the adapter is paused
+     * @return true if the adapter is paused, false otherwise
      */
-    function unpause(uint32 _dstEid, uint128 _lzReceiveGas) external payable {
-        _send(_dstEid, IPausable.unpause.selector, _lzReceiveGas);
+    function paused() public view returns (bool) {
+        return isPaused || PausableUpgradeable(token()).paused();
     }
 
     /**
-     * @dev send a signature to the LZ endpoint
-     * @param _dstEid the destination chain Id
-     * @param _signature the signature to send
-     * @param _lzReceiveGas the amount of gas to send to the LZ endpoint
+     * @notice Pauses the adapter
      */
-    function _send(uint32 _dstEid, bytes4 _signature, uint128 _lzReceiveGas) internal {
-        bytes memory options = OptionsBuilder.newOptions();
-        options = OptionsBuilder.addExecutorLzReceiveOption(options, _lzReceiveGas, 0);
-        bytes memory payload = abi.encode(_signature);
-        _lzSend(_dstEid, payload, options, MessagingFee(msg.value, 0), payable(msg.sender));
+    function pause() external onlyOwner {
+        isPaused = true;
+    }
+
+    /**
+     * @notice Unpauses the adapter
+     */
+    function unpause() external onlyOwner {
+        isPaused = false;
+    }
+
+    /*
+     * @notice Send a message to the destination endpoint or
+     * error if paused
+     */
+    function _lzSend(
+        uint32 _dstEid,
+        bytes memory _message,
+        bytes memory _options,
+        MessagingFee memory _fee,
+        address _refundAddress
+    )
+        internal
+        virtual
+        override
+        returns (MessagingReceipt memory receipt)
+    {
+        if (paused()) revert AdapterPaused();
+        return super._lzSend(_dstEid, _message, _options, _fee, _refundAddress);
     }
 }

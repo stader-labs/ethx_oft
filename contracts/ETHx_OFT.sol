@@ -6,16 +6,12 @@ import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/I
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
-import { OFTCore, Origin } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
+import { OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
 
 import { IERC20Burnable } from "./IERC20Burnable.sol";
-import { IPausable } from "./IPausable.sol";
 
 contract ETHx_OFT is OFTCore {
     using SafeERC20 for IERC20;
-
-    event Pause(uint32 srcEid);
-    event Unpause(uint32 srcEid);
 
     IERC20Burnable internal immutable ETHx;
 
@@ -38,19 +34,18 @@ contract ETHx_OFT is OFTCore {
     }
 
     /**
-     * pause the oft
+     * @dev Returns the balance of the specified account.
+     * @param _account The address to query the balance of.
+     * @return balance The balance of the specified account.
      */
-    function pause() public onlyOwner {
-        ETHx.pause();
+    function balanceOf(address _account) public view virtual returns (uint256) {
+        return ETHx.balanceOf(_account);
     }
 
     /**
-     * unpause the oft
+     * @dev Returns whether the OFT requires approval to transfer tokens.
+     * @return approvalRequired True if approval is required, false otherwise.
      */
-    function unpause() public onlyOwner {
-        ETHx.unpause();
-    }
-
     function approvalRequired() external pure returns (bool) {
         return false;
     }
@@ -102,31 +97,12 @@ contract ETHx_OFT is OFTCore {
         returns (uint256 amountReceivedLD)
     {
         // @dev Default OFT mints on dst.
-        ETHx.mint(_to, _amountLD);
+        _mint(_to, _amountLD);
         // @dev In the case of NON-default OFT, the _amountLD MIGHT not be == amountReceivedLD.
         return _amountLD;
     }
 
-    function _lzReceive(
-        Origin calldata _origin, // struct containing info about the message sender
-        bytes32 _guid, // global packet identifier
-        bytes calldata _payload, // encoded message payload being received
-        address _executor, // the Executor address.
-        bytes calldata _extraData // arbitrary data appended by the Executor
-    )
-        internal
-        virtual
-        override
-    {
-        bytes4 signature = abi.decode(_payload, (bytes4));
-        if (signature == IPausable.pause.selector) {
-            pause();
-            emit Pause(_origin.srcEid);
-        } else if (signature == IPausable.unpause.selector) {
-            unpause();
-            emit Unpause(_origin.srcEid);
-        } else {
-            super._lzReceive(_origin, _guid, _payload, _executor, _extraData);
-        }
+    function _mint(address _to, uint256 _amount) internal virtual {
+        ETHx.mint(_to, _amount);
     }
 }

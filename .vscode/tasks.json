@@ -105,7 +105,7 @@
         {
             "label": "slither",
             "type": "shell",
-            "command": "slither .",
+            "command": "slither . --exclude-dependencies --exclude-info",
             "options": {
                 "cwd": "${workspaceFolder}"
             },

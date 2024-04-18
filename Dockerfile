@@ -14,7 +14,6 @@ COPY --chown=foundry:foundry package.json .
 COPY --chown=foundry:foundry package-lock.json .
 COPY --chown=foundry:foundry yarn.lock .
 COPY --chown=foundry:foundry tsconfig.json .
-COPY --chown=foundry:foundry node_modules node_modules
 
 RUN npm ci --frozen-lockfile
 
@@ -24,6 +23,6 @@ RUN yamlfmt -lint .github/workflows/*.yml
 
 RUN forge install
 RUN forge fmt --check
-# RUN python3 -m slither . --exclude-dependencies
+RUN python3 -m slither . --exclude-dependencies --exclude-info --exclude-low --exclude-medium
 RUN npm run lint:sol
 RUN forge test -v

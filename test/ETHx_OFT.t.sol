@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.22;
 
 // Mock imports
 import { OFTMock } from "./mocks/OFTMock.sol";
@@ -19,6 +19,9 @@ import { MessagingFee, MessagingReceipt } from "@layerzerolabs/lz-evm-oapp-v2/co
 import { OFTMsgCodec } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/libs/OFTMsgCodec.sol";
 import { OFTComposeMsgCodec } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/libs/OFTComposeMsgCodec.sol";
 
+import { ETHx } from "../contracts/ETHx.sol";
+import { ETHxOFTMock } from "./mocks/ETHxOFTMock.sol";
+
 // OZ imports
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
@@ -35,7 +38,8 @@ contract ETHxOFTTest is TestHelperOz5 {
     uint32 bEid = 2;
 
     OFTMock aOFT;
-    OFTMock bOFT;
+    ETHx erc20;
+    ETHxOFTMock bOFT;
 
     address public userA = address(0x1);
     address public userB = address(0x2);
@@ -45,6 +49,10 @@ contract ETHxOFTTest is TestHelperOz5 {
         vm.deal(userA, 1000 ether);
         vm.deal(userB, 1000 ether);
 
+        address erc20Mock = vm.addr(1001);
+        mockEthx(erc20Mock);
+        erc20 = ETHx(erc20Mock);
+
         super.setUp();
         setUpEndpoints(2, LibraryType.UltraLightNode);
 
@@ -52,9 +60,13 @@ contract ETHxOFTTest is TestHelperOz5 {
             _deployOApp(type(OFTMock).creationCode, abi.encode("aOFT", "aOFT", address(endpoints[aEid]), address(this)))
         );
 
-        bOFT = OFTMock(
-            _deployOApp(type(OFTMock).creationCode, abi.encode("bOFT", "bOFT", address(endpoints[bEid]), address(this)))
+        bOFT = ETHxOFTMock(
+            _deployOApp(type(ETHxOFTMock).creationCode, abi.encode(erc20Mock, address(endpoints[bEid]), address(this)))
         );
+
+        erc20.grantRole(erc20.PAUSER_ROLE(), address(bOFT));
+        erc20.grantRole(erc20.MINTER_ROLE(), address(bOFT));
+        erc20.grantRole(erc20.BURNER_ROLE(), address(bOFT));
 
         // config and wire the ofts
         address[] memory ofts = new address[](2);
@@ -64,10 +76,11 @@ contract ETHxOFTTest is TestHelperOz5 {
 
         // mint tokens
         aOFT.mint(userA, initialBalance);
+        vm.prank(address(bOFT));
         bOFT.mint(userB, initialBalance);
     }
 
-    function test_constructor() public {
+    function testConstructor() public {
         assertEq(aOFT.owner(), address(this));
         assertEq(bOFT.owner(), address(this));
 
@@ -75,10 +88,19 @@ contract ETHxOFTTest is TestHelperOz5 {
         assertEq(bOFT.balanceOf(userB), initialBalance);
 
         assertEq(aOFT.token(), address(aOFT));
-        assertEq(bOFT.token(), address(bOFT));
+        assertEq(bOFT.token(), address(erc20));
     }
 
-    function test_send_oft() public {
+    function testBalanceOf() public {
+        address user1 = vm.addr(0x1);
+        address user2 = vm.addr(0x2);
+        vm.prank(address(bOFT));
+        erc20.mint(user1, 100);
+        assertEq(100, bOFT.balanceOf(user1));
+        assertEq(0, bOFT.balanceOf(user2));
+    }
+
+    function testSendOft() public {
         uint256 tokensToSend = 1 ether;
         bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200_000, 0);
         SendParam memory sendParam =
@@ -96,7 +118,7 @@ contract ETHxOFTTest is TestHelperOz5 {
         assertEq(bOFT.balanceOf(userB), initialBalance + tokensToSend);
     }
 
-    function test_send_oft_compose_msg() public {
+    function testSendOftComposeMsg() public {
         uint256 tokensToSend = 1 ether;
 
         OFTComposerMock composer = new OFTComposerMock();
@@ -137,5 +159,11 @@ contract ETHxOFTTest is TestHelperOz5 {
         assertEq(composer.extraData(), composerMsg_); // default to setting the extraData to the message as well to test
     }
 
-    // TODO import the rest of oft tests?
+    function mockEthx(address ethxMock) internal {
+        ETHx implementation = new ETHx();
+        bytes memory code = address(implementation).code;
+        vm.etch(ethxMock, code);
+        ETHx mock = ETHx(ethxMock);
+        mock.initialize(address(this));
+    }
 }
