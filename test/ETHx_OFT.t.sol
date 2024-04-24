@@ -159,7 +159,7 @@ contract ETHxOFTTest is TestHelperOz5 {
         assertEq(composer.extraData(), composerMsg_); // default to setting the extraData to the message as well to test
     }
 
-    function mockEthx(address ethxMock) internal {
+    function mockEthx(address ethxMock) private {
         ETHx implementation = new ETHx();
         bytes memory code = address(implementation).code;
         vm.etch(ethxMock, code);

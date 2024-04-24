@@ -12,7 +12,6 @@ RUN chown -R foundry:foundry .
 
 COPY --chown=foundry:foundry package.json .
 COPY --chown=foundry:foundry package-lock.json .
-COPY --chown=foundry:foundry yarn.lock .
 COPY --chown=foundry:foundry tsconfig.json .
 
 RUN npm ci --frozen-lockfile

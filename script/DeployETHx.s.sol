@@ -22,6 +22,13 @@ contract DeployETHx is Script {
         vm.stopBroadcast();
     }
 
+    function deployImplementation() public {
+        vm.startBroadcast();
+        ETHx implementation = new ETHx();
+        console.log("ETHx deployed at: ", address(implementation));
+        vm.stopBroadcast();
+    }
+
     function setupGrants() public {
         address proxy = vm.envAddress("ETHX");
         address admin = vm.envAddress("ETHX_ADMIN");

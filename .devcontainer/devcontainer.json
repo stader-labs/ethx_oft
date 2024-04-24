@@ -23,6 +23,7 @@
 		"OPS_URL": "${localEnv:OPS_URL}",
 		"ARS_URL": "${localEnv:ARS_URL}",
 		"HOLESKY_URL": "${localEnv:HOLESKY_URL}",
-		"ETHERSCAN_API_KEY": "${localEnv:ETHERSCAN_API_KEY}"
+		"ETHERSCAN_API_KEY": "${localEnv:ETHERSCAN_API_KEY}",
+		"ARBISCAN_API_KEY": "${localEnv:ARBISCAN_API_KEY}"
 	}
 }

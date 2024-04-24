@@ -11,6 +11,13 @@ import { IPausable } from "./IPausable.sol";
  */
 interface IERC20Burnable is IERC20, IPausable {
     /**
+     * used by certain bridge contracts to burn tokens
+     * @dev the caller must have the BURNER_ROLE
+     * @param amount the amount of ethX to burn
+     */
+    function burn(uint256 amount) external;
+
+    /**
      * @notice Burns a specific amount of the caller's tokens
      * @param amount the amount of tokens to burn
      */

@@ -118,7 +118,23 @@
         {
             "label": "deployethx",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api.arbiscan.io/api --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deployethximplementation",
+            "type": "shell",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployImplementation()' --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api.arbiscan.io/api --verify",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {

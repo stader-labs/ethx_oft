@@ -52,6 +52,16 @@ contract ETHx is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
     }
 
     /**
+     * used by certain bridge contracts to burn tokens
+     * @dev the caller must have the BURNER_ROLE as well
+     * as the number of requested tokens to burn
+     * @param amount the amount of ethX to burn
+     */
+    function burn(uint256 amount) external onlyRole(BURNER_ROLE) whenNotPaused {
+        _burn(_msgSender(), amount);
+    }
+
+    /**
      * @dev Triggers stopped state.
      * Contract must not be paused.
      */
