@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GNU-3.0-or-later
 pragma solidity 0.8.22;
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-
 import { OFTAdapter } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTAdapter.sol";
 import {
     MessagingFee,
@@ -10,7 +8,7 @@ import {
 } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
 
 import { IPausable } from "./IPausable.sol";
-import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
+import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
 /// @dev contract used for Origin chain where the token is already deployed
 contract ETHx_OFTAdapter is OFTAdapter, IPausable {
@@ -18,14 +16,8 @@ contract ETHx_OFTAdapter is OFTAdapter, IPausable {
 
     bool public isPaused;
 
-    constructor(
-        address _token,
-        address _lzEndpoint,
-        address _delegate
-    )
-        OFTAdapter(_token, _lzEndpoint, _delegate)
-        Ownable(_delegate)
-    {
+    constructor(address _token, address _lzEndpoint, address _delegate) OFTAdapter(_token, _lzEndpoint, _delegate) {
+        transferOwnership(_delegate);
         isPaused = false;
     }
 

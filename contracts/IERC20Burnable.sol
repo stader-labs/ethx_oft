@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GNU-3.0-or-later
 pragma solidity 0.8.22;
 
-import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IERC20Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 
 import { IPausable } from "./IPausable.sol";
 
@@ -9,7 +9,7 @@ import { IPausable } from "./IPausable.sol";
  * @title IERC20Burnable Interface
  * @notice Interface for ERC20 burnable token
  */
-interface IERC20Burnable is IERC20, IPausable {
+interface IERC20Burnable is IERC20Upgradeable, IPausable {
     /**
      * used by certain bridge contracts to burn tokens
      * @dev the caller must have the BURNER_ROLE

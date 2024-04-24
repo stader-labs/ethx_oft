@@ -3,7 +3,10 @@ pragma solidity ^0.8.22;
 
 import { Script, console } from "forge-std/Script.sol";
 
-import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import {
+    ITransparentUpgradeableProxy,
+    TransparentUpgradeableProxy
+} from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 
 import { ETHx } from "../contracts/ETHx.sol";
 
@@ -18,7 +21,18 @@ contract DeployETHx is Script {
         TransparentUpgradeableProxy proxy =
             new TransparentUpgradeableProxy(address(implementation), admin, initializationData);
         console.log("ETHx deployed to proxy at: ", address(proxy));
+        ITransparentUpgradeableProxy proxyInterface = ITransparentUpgradeableProxy(address(proxy));
+        console.log("Proxy admin: ", proxyInterface.admin());
         emit DeployedETHx(address(proxy), address(implementation));
+        vm.stopBroadcast();
+    }
+
+    function upgradeProxy() public {
+        address proxy = vm.envAddress("ETHX");
+        vm.startBroadcast();
+        ETHx implementation = new ETHx();
+        ITransparentUpgradeableProxy proxyInterface = ITransparentUpgradeableProxy(proxy);
+        proxyInterface.upgradeTo(address(implementation));
         vm.stopBroadcast();
     }
 

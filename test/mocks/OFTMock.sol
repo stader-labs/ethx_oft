@@ -12,9 +12,10 @@ contract OFTMock is OFT {
         address _lzEndpoint,
         address _delegate
     )
-        Ownable(_delegate)
         OFT(_name, _symbol, _lzEndpoint, _delegate)
-    { }
+    {
+        transferOwnership(msg.sender);
+    }
 
     function mint(address _to, uint256 _amount) public {
         _mint(_to, _amount);

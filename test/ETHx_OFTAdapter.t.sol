@@ -7,8 +7,7 @@ import { MessagingFee } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interf
 
 import { ETHx_OFTAdapter } from "../contracts/ETHx_OFTAdapter.sol";
 
-import { EndpointV2Mock as EndpointV2 } from
-    "@layerzerolabs/test-devtools-evm-foundry/contracts/mocks/EndpointV2Mock.sol";
+import { EndpointV2Mock as EndpointV2 } from "./mocks/EndpointV2Mock.sol";
 import { ERC20Mock } from "./mocks/ERC20Mock.sol";
 import { ETHx_OFTAdapterMock } from "./mocks/ETHx_OFTAdapterMock.sol";
 

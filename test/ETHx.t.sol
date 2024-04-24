@@ -40,7 +40,7 @@ contract ETHxTest is Test {
         address user = address(this);
         ethx.mint(user, 100);
         ethx.pause();
-        vm.expectRevert(abi.encodeWithSelector(EnforcedPause.selector));
+        vm.expectRevert("Pausable: paused");
         ethx.burn(75);
     }
 

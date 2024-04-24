@@ -4,7 +4,6 @@ pragma solidity 0.8.22;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 import { OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
 
@@ -21,8 +20,8 @@ contract ETHx_OFT is OFTCore {
         address _delegate
     )
         OFTCore(IERC20Metadata(_ETHx).decimals(), _lzEndpoint, _delegate)
-        Ownable(_delegate)
     {
+        transferOwnership(_delegate);
         ETHx = IERC20Burnable(_ETHx);
     }
 
