@@ -6369,10 +6369,10 @@ solc@0.7.3:
     semver "^5.5.0"
     tmp "0.0.33"
 
-solhint@^4.0.0, solhint@^4.1.1:
-  version "4.5.2"
-  resolved "https://registry.npmjs.org/solhint/-/solhint-4.5.2.tgz"
-  integrity sha512-o7MNYS5QPgE6l+PTGOTAUtCzo0ZLnffQsv586hntSHBe2JbSDfkoxfhAOcjZjN4OesTgaX4UEEjCjH9y/4BP5w==
+solhint@^4.0.0, solhint@4.5.4:
+  version "4.5.4"
+  resolved "https://registry.npmjs.org/solhint/-/solhint-4.5.4.tgz"
+  integrity sha512-Cu1XiJXub2q1eCr9kkJ9VPv1sGcmj3V7Zb76B0CoezDOB9bu3DxKIFFH7ggCl9fWpEPD6xBmRLfZrYijkVmujQ==
   dependencies:
     "@solidity-parser/parser" "^0.18.0"
     ajv "^6.12.6"

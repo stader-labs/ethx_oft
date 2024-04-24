@@ -114,6 +114,57 @@
                 "kind": "test",
                 "isDefault": false
             }
-        }
+        },
+        {
+            "label": "deployethx",
+            "type": "shell",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "setupethxgrants",
+            "type": "shell",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'setupGrants()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX": "0xA2FA067965488B2a67ba11B021Be53BeB579a32E",
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deployoft",
+            "type": "shell",
+            "command": "forge script ./script/OFT.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX": "0xA2FA067965488B2a67ba11B021Be53BeB579a32E",
+                    "LZ_ENDPOINT": "0x6edce65403992e310a62460808c4b910d972f10f",
+                    "DELEGATE": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
     ]
 }

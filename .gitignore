@@ -14,3 +14,7 @@ out
 
 # pnpm
 pnpm-error.log
+
+# forge
+broadcast/
+out/
