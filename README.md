@@ -101,3 +101,9 @@ By following these steps, you can focus more on creating innovative omnichain so
   Join our community on <a href="https://discord-layerzero.netlify.app/discord" style="color: #a77dff">Discord</a> | Follow us on <a href="https://twitter.com/LayerZero_Labs" style="color: #a77dff">Twitter</a>
 </p>
 
+
+#### Forge implementation deployment to mainnet
+
+```bash
+$ forge script ./script/DeployETHx.s.sol --sig 'deployImplementation()' --broadcast --slow --rpc-url ${ARBITRUM_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api.arbiscan.io/api --verify
+```
