@@ -57,15 +57,15 @@ $ forge test -v
 
 ## Contracts Deployed
 
-### ETH Holesky
-
-ETHx_OFTAdapter: 0x4D306b4d57BEFdFFB7d98b47e8c8D07CE517D9BF
-
-### Arbitrum Sepolia
-
-ETHx: 0x7F9c175343637e03b2a056D831BD5C96d1157ED6
-
-ETHx_OFT: 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d
+| Contract        | Address                                    | Network          |
+| --------------- | ------------------------------------------ | ---------------- |
+| ETHx_OFTAdapter | 0x4D306b4d57BEFdFFB7d98b47e8c8D07CE517D9BF | Holesky          |
+| ETHx            | 0x7F9c175343637e03b2a056D831BD5C96d1157ED6 | Arbitrum Sepolia |
+| ETHx_OFT        | 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d | Arbitrum Sepolia |
+| ETHx            | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
+| ETHx ProxyAdmin | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
+| ETHx            | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
+| ETHx ProxyAdmin | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
 
 ### Deployment
 Set up deployer wallet/account:
@@ -102,7 +102,7 @@ By following these steps, you can focus more on creating innovative omnichain so
 </p>
 
 
-#### Forge implementation deployment to mainnet
+#### Forge deployment
 
 ```bash
 $ forge script ./script/DeployETHx.s.sol --sig 'deployImplementation()' --broadcast --slow --rpc-url ${ARBITRUM_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api.arbiscan.io/api --verify
