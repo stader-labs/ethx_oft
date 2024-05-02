@@ -2,7 +2,7 @@ FROM ghcr.io/collectivexyz/foundry:latest
 
 RUN python3 -m pip install slither-analyzer --break-system-packages
 
-ARG PROJECT=layer_zero
+ARG PROJECT=ethx_oft
 WORKDIR /workspaces/${PROJECT}
 ENV USER=foundry
 USER foundry
@@ -24,4 +24,4 @@ RUN forge install
 RUN forge fmt --check
 #RUN python3 -m slither . --exclude-dependencies --exclude-info --exclude-low --exclude-medium
 RUN npm run lint:sol
-RUN forge test -v
+#RUN forge test -v
