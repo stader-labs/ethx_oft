@@ -5,9 +5,10 @@ import { Test } from "forge-std/Test.sol";
 
 import { MessagingFee } from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
 
+import { EndpointV2Mock as EndpointV2 } from "test-devtools-evm-foundry/contracts/mocks/EndpointV2Mock.sol";
+
 import { ETHx_OFTAdapter } from "../contracts/ETHx_OFTAdapter.sol";
 
-import { EndpointV2Mock as EndpointV2 } from "./mocks/EndpointV2Mock.sol";
 import { ERC20Mock } from "./mocks/ERC20Mock.sol";
 import { ETHx_OFTAdapterMock } from "./mocks/ETHx_OFTAdapterMock.sol";
 
