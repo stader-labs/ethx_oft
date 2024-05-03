@@ -9,12 +9,15 @@ import { OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol
 
 import { IERC20Burnable } from "./IERC20Burnable.sol";
 
+// solhint-disable-next-line contract-name-camelcase
 contract ETHx_OFT is OFTCore {
     using SafeERC20 for IERC20;
 
+    // solhint-disable-next-line var-name-mixedcase
     IERC20Burnable internal immutable ETHx;
 
     constructor(
+        // solhint-disable-next-line var-name-mixedcase
         address _ETHx,
         address _lzEndpoint,
         address _delegate

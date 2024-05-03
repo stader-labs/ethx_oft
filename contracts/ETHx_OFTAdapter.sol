@@ -11,6 +11,7 @@ import { IPausable } from "./IPausable.sol";
 import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
 /// @dev contract used for Origin chain where the token is already deployed
+// solhint-disable-next-line contract-name-camelcase
 contract ETHx_OFTAdapter is OFTAdapter, IPausable {
     error AdapterPaused();
 

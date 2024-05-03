@@ -37,9 +37,9 @@ contract ETHxOFTTest is TestHelperOz5 {
     uint32 aEid = 1;
     uint32 bEid = 2;
 
-    OFTMock aOFT;
+    OFTMock anOFT;
     ETHx erc20;
-    ETHxOFTMock bOFT;
+    ETHxOFTMock ethxOFT;
 
     address public userA = address(0x1);
     address public userB = address(0x2);
@@ -56,48 +56,50 @@ contract ETHxOFTTest is TestHelperOz5 {
         super.setUp();
         setUpEndpoints(2, LibraryType.UltraLightNode);
 
-        aOFT = OFTMock(
-            _deployOApp(type(OFTMock).creationCode, abi.encode("aOFT", "aOFT", address(endpoints[aEid]), address(this)))
+        anOFT = OFTMock(
+            _deployOApp(
+                type(OFTMock).creationCode, abi.encode("anOFT", "anOFT", address(endpoints[aEid]), address(this))
+            )
         );
 
-        bOFT = ETHxOFTMock(
+        ethxOFT = ETHxOFTMock(
             _deployOApp(type(ETHxOFTMock).creationCode, abi.encode(erc20Mock, address(endpoints[bEid]), address(this)))
         );
 
-        erc20.grantRole(erc20.PAUSER_ROLE(), address(bOFT));
-        erc20.grantRole(erc20.MINTER_ROLE(), address(bOFT));
-        erc20.grantRole(erc20.BURNER_ROLE(), address(bOFT));
+        erc20.grantRole(erc20.PAUSER_ROLE(), address(ethxOFT));
+        erc20.grantRole(erc20.MINTER_ROLE(), address(ethxOFT));
+        erc20.grantRole(erc20.BURNER_ROLE(), address(ethxOFT));
 
         // config and wire the ofts
         address[] memory ofts = new address[](2);
-        ofts[0] = address(aOFT);
-        ofts[1] = address(bOFT);
+        ofts[0] = address(anOFT);
+        ofts[1] = address(ethxOFT);
         this.wireOApps(ofts);
 
         // mint tokens
-        aOFT.mint(userA, initialBalance);
-        vm.prank(address(bOFT));
-        bOFT.mint(userB, initialBalance);
+        anOFT.mint(userA, initialBalance);
+        vm.prank(address(ethxOFT));
+        ethxOFT.mint(userB, initialBalance);
     }
 
     function testConstructor() public {
-        assertEq(aOFT.owner(), address(this));
-        assertEq(bOFT.owner(), address(this));
+        assertEq(anOFT.owner(), address(this));
+        assertEq(ethxOFT.owner(), address(this));
 
-        assertEq(aOFT.balanceOf(userA), initialBalance);
-        assertEq(bOFT.balanceOf(userB), initialBalance);
+        assertEq(anOFT.balanceOf(userA), initialBalance);
+        assertEq(ethxOFT.balanceOf(userB), initialBalance);
 
-        assertEq(aOFT.token(), address(aOFT));
-        assertEq(bOFT.token(), address(erc20));
+        assertEq(anOFT.token(), address(anOFT));
+        assertEq(ethxOFT.token(), address(erc20));
     }
 
     function testBalanceOf() public {
         address user1 = vm.addr(0x1);
         address user2 = vm.addr(0x2);
-        vm.prank(address(bOFT));
+        vm.prank(address(ethxOFT));
         erc20.mint(user1, 100);
-        assertEq(100, bOFT.balanceOf(user1));
-        assertEq(0, bOFT.balanceOf(user2));
+        assertEq(100, ethxOFT.balanceOf(user1));
+        assertEq(0, ethxOFT.balanceOf(user2));
     }
 
     function testSendOft() public {
@@ -105,17 +107,17 @@ contract ETHxOFTTest is TestHelperOz5 {
         bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200_000, 0);
         SendParam memory sendParam =
             SendParam(bEid, addressToBytes32(userB), tokensToSend, tokensToSend, options, "", "");
-        MessagingFee memory fee = aOFT.quoteSend(sendParam, false);
+        MessagingFee memory fee = anOFT.quoteSend(sendParam, false);
 
-        assertEq(aOFT.balanceOf(userA), initialBalance);
-        assertEq(bOFT.balanceOf(userB), initialBalance);
+        assertEq(anOFT.balanceOf(userA), initialBalance);
+        assertEq(ethxOFT.balanceOf(userB), initialBalance);
 
         vm.prank(userA);
-        aOFT.send{ value: fee.nativeFee }(sendParam, fee, payable(address(this)));
-        verifyPackets(bEid, addressToBytes32(address(bOFT)));
+        anOFT.send{ value: fee.nativeFee }(sendParam, fee, payable(address(this)));
+        verifyPackets(bEid, addressToBytes32(address(ethxOFT)));
 
-        assertEq(aOFT.balanceOf(userA), initialBalance - tokensToSend);
-        assertEq(bOFT.balanceOf(userB), initialBalance + tokensToSend);
+        assertEq(anOFT.balanceOf(userA), initialBalance - tokensToSend);
+        assertEq(ethxOFT.balanceOf(userB), initialBalance + tokensToSend);
     }
 
     function testSendOftComposeMsg() public {
@@ -128,19 +130,19 @@ contract ETHxOFTTest is TestHelperOz5 {
         bytes memory composeMsg = hex"1234";
         SendParam memory sendParam =
             SendParam(bEid, addressToBytes32(address(composer)), tokensToSend, tokensToSend, options, composeMsg, "");
-        MessagingFee memory fee = aOFT.quoteSend(sendParam, false);
+        MessagingFee memory fee = anOFT.quoteSend(sendParam, false);
 
-        assertEq(aOFT.balanceOf(userA), initialBalance);
-        assertEq(bOFT.balanceOf(address(composer)), 0);
+        assertEq(anOFT.balanceOf(userA), initialBalance);
+        assertEq(ethxOFT.balanceOf(address(composer)), 0);
 
         vm.prank(userA);
         (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt) =
-            aOFT.send{ value: fee.nativeFee }(sendParam, fee, payable(address(this)));
-        verifyPackets(bEid, addressToBytes32(address(bOFT)));
+            anOFT.send{ value: fee.nativeFee }(sendParam, fee, payable(address(this)));
+        verifyPackets(bEid, addressToBytes32(address(ethxOFT)));
 
         // lzCompose params
         uint32 dstEid_ = bEid;
-        address from_ = address(bOFT);
+        address from_ = address(ethxOFT);
         bytes memory options_ = options;
         bytes32 guid_ = msgReceipt.guid;
         address to_ = address(composer);
@@ -149,8 +151,8 @@ contract ETHxOFTTest is TestHelperOz5 {
         );
         this.lzCompose(dstEid_, from_, options_, guid_, to_, composerMsg_);
 
-        assertEq(aOFT.balanceOf(userA), initialBalance - tokensToSend);
-        assertEq(bOFT.balanceOf(address(composer)), tokensToSend);
+        assertEq(anOFT.balanceOf(userA), initialBalance - tokensToSend);
+        assertEq(ethxOFT.balanceOf(address(composer)), tokensToSend);
 
         assertEq(composer.from(), from_);
         assertEq(composer.guid(), guid_);

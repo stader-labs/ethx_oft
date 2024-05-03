@@ -22,6 +22,6 @@ RUN yamlfmt -lint .github/workflows/*.yml
 
 RUN forge install
 RUN forge fmt --check
-#RUN python3 -m slither . --exclude-dependencies --exclude-info --exclude-low --exclude-medium
+RUN python3 -m slither . --exclude-dependencies --exclude-info --exclude-low --exclude-medium || true
 RUN npm run lint:sol
 #RUN forge test -v
