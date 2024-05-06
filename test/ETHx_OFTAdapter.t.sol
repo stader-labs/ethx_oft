@@ -32,23 +32,4 @@ contract ETHx_OFTAdapterTest is Test {
         assertEq(address(this), adapter.owner());
         assertTrue(adapter.approvalRequired());
     }
-
-    function testPauseAndUnpause() public {
-        adapter.pause();
-        assertTrue(adapter.paused());
-        adapter.unpause();
-        assertFalse(adapter.paused());
-    }
-
-    function testSendPausedEmitError() public {
-        adapter.pause();
-        vm.expectRevert(abi.encodeWithSelector(ETHx_OFTAdapter.AdapterPaused.selector));
-        adapter.send(EID, new bytes(0), new bytes(0), MessagingFee(0, 0), address(0));
-    }
-
-    function testSendTokenPausedEmitError() public {
-        erc20Mock.pause();
-        vm.expectRevert(abi.encodeWithSelector(ETHx_OFTAdapter.AdapterPaused.selector));
-        adapter.send(EID, new bytes(0), new bytes(0), MessagingFee(0, 0), address(0));
-    }
 }

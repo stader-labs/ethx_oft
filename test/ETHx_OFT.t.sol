@@ -104,7 +104,8 @@ contract ETHxOFTTest is TestHelperOz5 {
 
     function testSendOft() public {
         uint256 tokensToSend = 1 ether;
-        bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200_000, 0);
+        bytes memory options = OptionsBuilder.newOptions();
+        options = OptionsBuilder.addExecutorLzReceiveOption(options, 200_000, 0);
         SendParam memory sendParam =
             SendParam(bEid, addressToBytes32(userB), tokensToSend, tokensToSend, options, "", "");
         MessagingFee memory fee = anOFT.quoteSend(sendParam, false);

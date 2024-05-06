@@ -28,4 +28,15 @@ contract OFT is Script {
         ethx.grantRole(ethx.BURNER_ROLE(), admin);
         ethx.grantRole(ethx.PAUSER_ROLE(), admin);
     }
+
+    function setPeer() public {
+        address oft = vm.envAddress("OFT");
+        uint32 peerEid = uint32(vm.envUint("PEER_EID"));
+        address peerAddress = vm.envAddress("PEER_ADDRESS");
+        ETHx_OFT ethx_oft = ETHx_OFT(oft);
+        vm.startBroadcast();
+        bytes32 peerAddressBytes = bytes32(uint256(uint160(peerAddress)));
+        ethx_oft.setPeer(peerEid, peerAddressBytes);
+        vm.stopBroadcast();
+    }
 }
