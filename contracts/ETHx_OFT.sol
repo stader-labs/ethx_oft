@@ -4,17 +4,28 @@ pragma solidity 0.8.22;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
 import { OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
+import {
+    MessagingFee,
+    MessagingReceipt
+} from "@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol";
 
 import { IERC20Burnable } from "./IERC20Burnable.sol";
+import { ComposedPauser } from "./ComposedPauser.sol";
+import { IPausable } from "./IPausable.sol";
 
 // solhint-disable-next-line contract-name-camelcase
-contract ETHx_OFT is OFTCore {
+contract ETHx_OFT is OFTCore, IPausable {
     using SafeERC20 for IERC20;
+
+    error AdapterPaused();
 
     // solhint-disable-next-line var-name-mixedcase
     IERC20Burnable internal immutable ETHx;
+
+    ComposedPauser private _composedPauser;
 
     constructor(
         // solhint-disable-next-line var-name-mixedcase
@@ -26,6 +37,7 @@ contract ETHx_OFT is OFTCore {
     {
         transferOwnership(_delegate);
         ETHx = IERC20Burnable(_ETHx);
+        _composedPauser = new ComposedPauser();
     }
 
     /**
@@ -50,6 +62,28 @@ contract ETHx_OFT is OFTCore {
      */
     function approvalRequired() external pure returns (bool) {
         return false;
+    }
+
+    /**
+     * @dev Returns whether the OFT is paused.
+     * @return True if the OFT is paused, false otherwise.
+     */
+    function paused() public view virtual returns (bool) {
+        return PausableUpgradeable(address(ETHx)).paused() || _composedPauser.paused();
+    }
+
+    /**
+     * @notice Pauses the adapter
+     */
+    function pause() external onlyOwner {
+        _composedPauser.pause();
+    }
+
+    /**
+     * @notice Unpauses the adapter
+     */
+    function unpause() external onlyOwner {
+        _composedPauser.unpause();
     }
 
     /**
@@ -104,7 +138,33 @@ contract ETHx_OFT is OFTCore {
         return _amountLD;
     }
 
+    /*
+        * @dev Mints tokens to the specified address.
+        * @param _to The address to mint the tokens to.
+        * @param _amount The amount of tokens to mint.
+        */
+
     function _mint(address _to, uint256 _amount) internal virtual {
         ETHx.mint(_to, _amount);
+    }
+
+    /*
+     * @notice Send a message to the destination endpoint or
+     * error if paused
+     */
+    function _lzSend(
+        uint32 _dstEid,
+        bytes memory _message,
+        bytes memory _options,
+        MessagingFee memory _fee,
+        address _refundAddress
+    )
+        internal
+        virtual
+        override
+        returns (MessagingReceipt memory receipt)
+    {
+        if (paused()) revert AdapterPaused();
+        return super._lzSend(_dstEid, _message, _options, _fee, _refundAddress);
     }
 }

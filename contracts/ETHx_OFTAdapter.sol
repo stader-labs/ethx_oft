@@ -10,16 +10,18 @@ import {
 import { IPausable } from "./IPausable.sol";
 import { PausableUpgradeable } from "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
+import { ComposedPauser } from "./ComposedPauser.sol";
+
 /// @dev contract used for Origin chain where the token is already deployed
 // solhint-disable-next-line contract-name-camelcase
 contract ETHx_OFTAdapter is OFTAdapter, IPausable {
     error AdapterPaused();
 
-    bool public isPaused;
+    ComposedPauser private _composedPauser;
 
     constructor(address _token, address _lzEndpoint, address _delegate) OFTAdapter(_token, _lzEndpoint, _delegate) {
         transferOwnership(_delegate);
-        isPaused = false;
+        _composedPauser = new ComposedPauser();
     }
 
     /**
@@ -27,21 +29,21 @@ contract ETHx_OFTAdapter is OFTAdapter, IPausable {
      * @return true if the adapter is paused, false otherwise
      */
     function paused() public view returns (bool) {
-        return isPaused || PausableUpgradeable(token()).paused();
+        return PausableUpgradeable(token()).paused() || _composedPauser.paused();
     }
 
     /**
      * @notice Pauses the adapter
      */
     function pause() external onlyOwner {
-        isPaused = true;
+        _composedPauser.pause();
     }
 
     /**
      * @notice Unpauses the adapter
      */
     function unpause() external onlyOwner {
-        isPaused = false;
+        _composedPauser.unpause();
     }
 
     /*

@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
+// Forge imports
+import "forge-std/console.sol";
+
+// OZ imports
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+
 // Mock imports
 import { OFTMock } from "./mocks/OFTMock.sol";
 import { ERC20Mock } from "./mocks/ERC20Mock.sol";
@@ -21,12 +27,6 @@ import { OFTComposeMsgCodec } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/
 
 import { ETHx } from "../contracts/ETHx.sol";
 import { ETHxOFTMock } from "./mocks/ETHxOFTMock.sol";
-
-// OZ imports
-import { IERC20 } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-
-// Forge imports
-import "forge-std/console.sol";
 
 // DevTools imports
 import { TestHelperOz5 } from "test-devtools-evm-foundry/contracts/TestHelperOz5.sol";
@@ -159,6 +159,43 @@ contract ETHxOFTTest is TestHelperOz5 {
         assertEq(composer.message(), composerMsg_);
         assertEq(composer.executor(), address(this));
         assertEq(composer.extraData(), composerMsg_); // default to setting the extraData to the message as well to test
+    }
+
+    function testPauseAndUnpause() public {
+        assert(!ethxOFT.paused());
+        ethxOFT.pause();
+        assert(ethxOFT.paused());
+        ethxOFT.unpause();
+        assert(!ethxOFT.paused());
+    }
+
+    function testSendPausedEmitError() public {
+        ethxOFT.pause();
+        uint256 tokensToSend = 1 ether;
+        bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200_000, 0);
+        SendParam memory sendParam =
+            SendParam(bEid, addressToBytes32(userB), tokensToSend, tokensToSend, options, "", "");
+        MessagingFee memory fee = anOFT.quoteSend(sendParam, false);
+
+        assertEq(anOFT.balanceOf(userA), initialBalance);
+        assertEq(ethxOFT.balanceOf(userB), initialBalance);
+
+        vm.prank(userA);
+        anOFT.send{ value: fee.nativeFee }(sendParam, fee, payable(address(this)));
+    }
+
+    function testPauseRequiresOwner() public {
+        address owner1 = vm.addr(0x1);
+        ethxOFT.transferOwnership(owner1);
+        vm.expectRevert("Ownable: caller is not the owner");
+        ethxOFT.pause();
+    }
+
+    function testUnpauseRequiresOwner() public {
+        address owner1 = vm.addr(0x1);
+        ethxOFT.transferOwnership(owner1);
+        vm.expectRevert("Ownable: caller is not the owner");
+        ethxOFT.unpause();
     }
 
     function mockEthx(address ethxMock) private {
