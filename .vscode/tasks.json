@@ -118,7 +118,7 @@
         {
             "label": "deployproxyadmin",
             "type": "shell",
-            "command": "forge script ./script/OFT.s.sol --sig 'deployAdmin()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api-sepolia.arbiscan.io/api --verify",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployAdmin()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -280,6 +280,79 @@
                     "OFT": "0x8AEDA11bD0C5fBafbFb142830d23812Df02A8424",
                     "PEER_EID": "40217",
                     "PEER_ADDRESS": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deployrateoracle",
+            "type": "shell",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProxyOracle()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PROXY_ADMIN": "0xe6460418db6D7A6D85423560B19A8Af37c1092a4",
+                    "STAKE_POOL_MANAGER": "0x7F09ceb3874F5E35Cd2135F56fd4329b88c5d119",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deployrateprovider",
+            "type": "shell",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProvider()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                    "ETHX": "0xB4F5fc289a778B80392b86fa70A7111E5bE0F859",
+                    "ETHX_PRICE_ORACLE": "0x66C4924Cc30dC47D0c8484143236F465F4e37c9E",
+                    "LZ_ENDPOINT": "0x4e08B1F1AC79898569CfB999FB92B5495FB18A2B"
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deployratereceiver",
+            "type": "shell",
+            "command": "forge script ./script/DeployRateReceiver.s.sol --sig 'deployReceiver()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api-sepolia.arbiscan.io/api --verify",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                    "ETHX_RATE_PROVIDER": "0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79",
+                    "SRC_CHAIN_ID": "10217",
+                    "LZ_ENDPOINT": "0x6098e96a28E02f27B1e6BD381f870F1C8Bd169d3"
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "wirerateprovider",
+            "type": "shell",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'wireProvider()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "RATE_PROVIDER": "0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79",
+                    "DST_CHAIN_ID": "10231",
+                    "RATE_RECEIVER": "0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE",
                 }
             },
             "dependsOn": "test",

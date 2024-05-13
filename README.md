@@ -62,15 +62,21 @@ $ forge test -v
 
 ## Contracts Deployed
 
-| Contract        | Address                                    | Network          |
-| --------------- | ------------------------------------------ | ---------------- |
-| ETHx_OFTAdapter | 0x4D306b4d57BEFdFFB7d98b47e8c8D07CE517D9BF | Holesky          |
-| ETHx            | 0x7F9c175343637e03b2a056D831BD5C96d1157ED6 | Arbitrum Sepolia |
-| ETHx_OFT        | 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d | Arbitrum Sepolia |
-| ETHx            | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
-| ETHx ProxyAdmin | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
-| ETHx            | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
-| ETHx ProxyAdmin | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
+| Contract         | Address                                    | Network          |
+| ---------------- | ------------------------------------------ | ---------------- |
+| ETHx             | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
+| ETHx ProxyAdmin  | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
+| ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
+| ETHx ProxyAdmin  | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
+| ETHx             | 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859 | Holesky          |
+| ETHx_OFTAdapter  | 0x4D306b4d57BEFdFFB7d98b47e8c8D07CE517D9BF | Holesky          |
+| ETHx ProxyAdmin  | 0xe6460418db6D7A6D85423560B19A8Af37c1092a4 | Holesky          |
+| ETHx PriceOracle | 0x66C4924Cc30dC47D0c8484143236F465F4e37c9E | Holesky          |
+| ETHxRateProvider | 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 | Holesky          |
+| ETHx             | 0x7F9c175343637e03b2a056D831BD5C96d1157ED6 | Arbitrum Sepolia |
+| ETHx_OFT         | 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d | Arbitrum Sepolia |
+| ETHxRateReceiver | 0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE | Arbitrum Sepolia |
+
 
 ### Deployment
 Set up deployer wallet/account:

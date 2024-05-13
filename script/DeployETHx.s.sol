@@ -36,7 +36,6 @@ contract DeployETHx is Script {
             new TransparentUpgradeableProxy(address(implementation), proxyAdmin, initializationData);
         console.log("ETHx deployed to proxy at: ", address(proxy));
         emit DeployedETHx(address(proxy), address(implementation));
-        ETHx ethx = ETHx(address(proxy));
         vm.stopBroadcast();
     }
 
