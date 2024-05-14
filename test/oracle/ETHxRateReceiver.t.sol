@@ -25,7 +25,7 @@ contract ETHxRateReceiverTest is Test {
     function testRateInfo() public {
         (string memory symbol, string memory baseSymbol) = ethXRateReceiver.rateInfo();
         assertEq(symbol, "ETHx");
-        assertEq(baseSymbol, "ETH");
+        assertEq(baseSymbol, "WETH");
     }
 
     function testSourceChainId() public {

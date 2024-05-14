@@ -8,7 +8,7 @@ import { CrossChainRateReceiver } from "./CrossChainRateReceiver.sol";
 /// on
 contract ETHxRateReceiver is CrossChainRateReceiver {
     constructor(uint16 _srcChainId, address _rateProvider, address _layerZeroEndpoint) {
-        rateInfo = RateInfo({ tokenSymbol: "ETHx", baseTokenSymbol: "ETH" });
+        rateInfo = RateInfo({ tokenSymbol: "ETHx", baseTokenSymbol: "WETH" });
         srcChainId = _srcChainId;
         rateProvider = _rateProvider;
         layerZeroEndpoint = _layerZeroEndpoint;

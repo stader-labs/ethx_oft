@@ -76,6 +76,7 @@ $ forge test -v
 | ETHx             | 0x7F9c175343637e03b2a056D831BD5C96d1157ED6 | Arbitrum Sepolia |
 | ETHx_OFT         | 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d | Arbitrum Sepolia |
 | ETHxRateReceiver | 0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE | Arbitrum Sepolia |
+| ETHxRateReceiver | 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 | XLayer Testnet   |
 
 
 ### Deployment
@@ -117,4 +118,36 @@ By following these steps, you can focus more on creating innovative omnichain so
 
 ```bash
 $ forge script ./script/DeployETHx.s.sol --sig 'deployImplementation()' --broadcast --slow --rpc-url ${ARBITRUM_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api.arbiscan.io/api --verify
+```
+
+
+#### Examples
+
+Get fees for L2 to send in LayerZero Transaction.
+
+```bash
+$cast call 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 "estimateTotalFee()" --rpc-url ${HOLESKY_URL} 
+0x0000000000000000000000000000000000000000000000000002780ecc6d1951
+```
+
+Update rate on Holesky Testnet:
+
+```bash
+cast send 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 "updateRate()" --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --value 694954907998545
+status                  1 (success)
+transactionHash         0x1ad899d3094a5d1e92d9e1eda12f507950d9ce7d7c18638209ef6e910ebf8d10
+transactionIndex        18
+type                    2
+blobGasPrice            
+blobGasUsed             
+to                      0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79
+```
+
+Check result on [LayerZero Scan](https://testnet.layerzeroscan.com/tx/0x1ad899d3094a5d1e92d9e1eda12f507950d9ce7d7c18638209ef6e910ebf8d10)
+
+Get rate on XLayer Testnet:
+
+```bash
+$ cast call 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 "rate()" --rpc-url ${XLAYER_URL}
+0x0000000000000000000000000000000000000000000000000de0bf5399e7bdd6
 ```

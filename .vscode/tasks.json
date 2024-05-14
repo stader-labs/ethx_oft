@@ -327,14 +327,14 @@
         {
             "label": "deployratereceiver",
             "type": "shell",
-            "command": "forge script ./script/DeployRateReceiver.s.sol --sig 'deployReceiver()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api-sepolia.arbiscan.io/api --verify",
+            "command": "forge script ./script/DeployRateReceiver.s.sol --sig 'deployReceiver()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
                     "ETHX_RATE_PROVIDER": "0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79",
                     "SRC_CHAIN_ID": "10217",
-                    "LZ_ENDPOINT": "0x6098e96a28E02f27B1e6BD381f870F1C8Bd169d3"
+                    "LZ_ENDPOINT": "0x2cA20802fd1Fd9649bA8Aa7E50F0C82b479f35fe"
                 }
             },
             "dependsOn": "test",
@@ -351,8 +351,8 @@
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "RATE_PROVIDER": "0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79",
-                    "DST_CHAIN_ID": "10231",
-                    "RATE_RECEIVER": "0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE",
+                    "DST_CHAIN_ID": "10269",
+                    "RATE_RECEIVER": "0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187",
                 }
             },
             "dependsOn": "test",
