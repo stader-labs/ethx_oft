@@ -4,7 +4,7 @@ pragma solidity 0.8.22;
 import { Test } from "forge-std/Test.sol";
 
 import { ETHxRateProvider } from "../../contracts/oracle/ETHxRateProvider.sol";
-import { IPriceFetcher } from "../../contracts/oracle/IPriceFetcher.sol";
+import { IPriceOracle } from "../../contracts/oracle/IPriceOracle.sol";
 
 contract EthXRateProviderTest is Test {
     uint256 private constant ETHX_ADDR = 0x1001;
@@ -30,6 +30,6 @@ contract EthXRateProviderTest is Test {
     }
 
     function mockOracle(address _rateOracle) private {
-        vm.mockCall(_rateOracle, abi.encodeWithSelector(IPriceFetcher.getAssetPrice.selector), abi.encode(RATE));
+        vm.mockCall(_rateOracle, abi.encodeWithSelector(IPriceOracle.getAssetPrice.selector), abi.encode(RATE));
     }
 }

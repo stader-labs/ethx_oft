@@ -25,7 +25,14 @@ contract ETHx is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
         _disableInitializers();
     }
 
-    function initialize(address _admin) external initializer onlyNonZeroAddress(_admin) {
+    modifier requireNonZeroAddress(address _addr) {
+        if (_addr == address(0)) {
+            revert ZeroAddress();
+        }
+        _;
+    }
+
+    function initialize(address _admin) external initializer requireNonZeroAddress(_admin) {
         __ERC20_init("ETHx", "ETHx");
         __Pausable_init();
         __AccessControl_init();
@@ -75,12 +82,5 @@ contract ETHx is Initializable, ERC20Upgradeable, PausableUpgradeable, AccessCon
      */
     function unpause() external onlyRole(DEFAULT_ADMIN_ROLE) {
         _unpause();
-    }
-
-    modifier onlyNonZeroAddress(address _addr) {
-        if (_addr == address(0)) {
-            revert ZeroAddress();
-        }
-        _;
     }
 }

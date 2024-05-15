@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.22;
 
-import { IPriceFetcher } from "./IPriceFetcher.sol";
+import { IPriceOracle } from "./IPriceOracle.sol";
 import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 interface IETHxStakePoolManager {
@@ -15,7 +15,7 @@ interface IStaderConfig {
 
 /// @title EthXPriceOracle Contract
 /// @notice contract that fetches the exchange rate of ETHX/ETH
-contract ETHxPriceOracle is IPriceFetcher, Initializable {
+contract ETHxPriceOracle is IPriceOracle, Initializable {
     address public stakePoolManager;
 
     error InvalidAsset();

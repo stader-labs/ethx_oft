@@ -3,7 +3,7 @@ pragma solidity 0.8.22;
 
 import { MultiChainRateProvider } from "./MultiChainRateProvider.sol";
 
-import { IPriceFetcher } from "../../contracts/oracle/IPriceFetcher.sol";
+import { IPriceOracle } from "../../contracts/oracle/IPriceOracle.sol";
 
 /// @title rsETH cross chain rate provider
 /// @notice Provides the current exchange rate of rsETH to a receiver contract on a different chain than the one this
@@ -25,7 +25,7 @@ contract ETHxRateProvider is MultiChainRateProvider {
 
     /// @notice Returns the latest rate from the rsETH contract
     function getLatestRate() public view override returns (uint256) {
-        return IPriceFetcher(ethxPriceOracle).getAssetPrice(rateInfo.tokenAddress);
+        return IPriceOracle(ethxPriceOracle).getAssetPrice(rateInfo.tokenAddress);
     }
 
     /// @notice Calls the getLatestRate function and returns the rate
