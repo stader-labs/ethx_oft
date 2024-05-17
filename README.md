@@ -17,7 +17,7 @@
 <p align="left">An Omnichain fungible token is a type of asset designed to provide liquidity across multiple blockchain networks without being restricted. This technology allows for greater interoperability and fluidity of the sd token.  These tokens can be used, traded, and managed across different blockchain systems without the need for complex and costly bridging solutions. By leveraging protocols that enable cross-chain interactions, omnichain tokens aim to foster a more connected and efficient ecosystem for digital assets, enhancing user experience by simplifying transactions and reducing fragmentation across the blockchain landscape. This approach not only enhances liquidity and accessibility but also supports broader adoption of blockchain technology by creating a more unified and versatile digital economy.
 
 
-## 1) Developing Contracts
+## 1 - Developing Contracts
 
 #### using Docker
 ```bash
@@ -53,7 +53,12 @@ Run tests
 $ forge test -v
 ```
 
-## 2) Deploying Contracts
+### 2 - Audit History
+
+[AUDIT.md](AUDIT.md)
+
+
+## 3 - Deploying Contracts
 
 ## Contracts Deployed
 
