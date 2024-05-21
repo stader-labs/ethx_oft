@@ -29,6 +29,7 @@ contract DeployETHx is Script {
     function deployProxy() public {
         address admin = vm.envAddress("ETHX_ADMIN");
         address proxyAdmin = vm.envAddress("PROXY_ADMIN");
+        address deploymentAdmin = msg.sender;
         vm.startBroadcast();
         ETHx implementation = new ETHx();
         bytes memory initializationData = abi.encodeWithSelector(ETHx.initialize.selector, admin);
@@ -36,6 +37,15 @@ contract DeployETHx is Script {
             new TransparentUpgradeableProxy(address(implementation), proxyAdmin, initializationData);
         console.log("ETHx deployed to proxy at: ", address(proxy));
         emit DeployedETHx(address(proxy), address(implementation));
+        ETHx ethx = ETHx(address(proxy));
+        if (admin != deploymentAdmin) {
+            ethx.grantRole(ethx.DEFAULT_ADMIN_ROLE(), admin);
+            ethx.renounceRole(ethx.DEFAULT_ADMIN_ROLE(), deploymentAdmin);
+            console.log("ETHx set admin to: ", admin);
+            console.log("ETHx renounced admin: ", deploymentAdmin);
+        } else {
+            console.log("ETHx set admin to: ", admin);
+        }
         vm.stopBroadcast();
     }
 

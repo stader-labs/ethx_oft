@@ -118,7 +118,7 @@
         {
             "label": "deployproxyadmin",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployAdmin()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployAdmin()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -134,11 +134,11 @@
         {
             "label": "deployethx",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --broadcast --slow --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api-sepolia.arbiscan.io/api --verify",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --broadcast --legacy --slow --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PROXY_ADMIN": "0x3d86FA998c2709A7ae3ae4FB7a69b7CD7009d08f",
+                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
                     "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
                 }
             },
@@ -198,14 +198,55 @@
         {
             "label": "deployoft",
             "type": "shell",
-            "command": "forge script ./script/OFT.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ARBISCAN_API_KEY} --verifier-url https://api-sepolia.arbiscan.io/api --verify",
+            "command": "forge script ./script/OFT.s.sol --sig 'deploy()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PROXY_ADMIN": "0x3d86FA998c2709A7ae3ae4FB7a69b7CD7009d08f",
-                    "ETHX": "0x52312ea29135A468417F0C71d6A75CfEA75351b7",
-                    "LZ_ENDPOINT": "0x6edce65403992e310a62460808c4b910d972f10f",
+                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
+                    "ETHX": "0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574",
+                    "LZ_ENDPOINT": "0x6EDCE65403992e310A62460808c4b910D972f10f",
                     "DELEGATE": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deploywrapper",
+            "type": "shell",
+            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployWrapper()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
+                    "ETHX": "0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574",
+                    "BRIDGER": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                }
+            },
+            "dependsOn": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "deploypool",
+            "type": "shell",
+            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployPool()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
+                    "ETHX_WRAPPER": "0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24",
+                    "BRIDGER": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                    "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
+                    "ORACLE": "0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187",
+                    "WETH": "0xBec7859BC3d0603BeC454F7194173E36BF2Aa5C8",
+                    "FEE_BPS": "100"
                 }
             },
             "dependsOn": "test",
@@ -240,8 +281,8 @@
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "OFT_ADAPTER": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
-                    "PEER_EID": "40231",
-                    "PEER_ADDRESS": "0x8AEDA11bD0C5fBafbFb142830d23812Df02A8424",
+                    "PEER_EID": "40269",
+                    "PEER_ADDRESS": "0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898",
                 }
             },
             "dependsOn": "test",
@@ -273,11 +314,11 @@
         {
             "label": "oftsetpeer",
             "type": "shell",
-            "command": "forge script ./script/OFT.s.sol --sig 'setPeer()' --slow --broadcast --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFT.s.sol --sig 'setPeer()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "OFT": "0x8AEDA11bD0C5fBafbFb142830d23812Df02A8424",
+                    "OFT": "0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898",
                     "PEER_EID": "40217",
                     "PEER_ADDRESS": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
                 }

@@ -36,16 +36,16 @@ contract ETHxTokenWrapper is Initializable, AccessControlUpgradeable, ERC20Upgra
     }
 
     /// @dev Initialize the contract
-    /// @param admin The address of the admin
-    /// @param manager The address of the manager
+    /// @param _admin The address of the admin
+    /// @param _bridger The address of the bridger
     /// @param _altETHx An alternative ETHx token
-    function initialize(address admin, address manager, address _altETHx) public initializer {
+    function initialize(address _admin, address _bridger, address _altETHx) public initializer {
         __ERC20_init("ETHxWrapper", "WETHx");
         __ERC20Permit_init("ETHxWrapper");
         __AccessControl_init();
 
-        _setupRole(DEFAULT_ADMIN_ROLE, admin);
-        _setupRole(BRIDGER_ROLE, manager);
+        _setupRole(DEFAULT_ADMIN_ROLE, _admin);
+        _setupRole(BRIDGER_ROLE, _bridger);
 
         allowedTokens[_altETHx] = true;
     }

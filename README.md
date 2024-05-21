@@ -76,6 +76,11 @@ $ forge test -v
 | ETHx             | 0x7F9c175343637e03b2a056D831BD5C96d1157ED6 | Arbitrum Sepolia |
 | ETHx_OFT         | 0x8826E2Dd7555Ec6A8782F63e3b10A4C7F973b03d | Arbitrum Sepolia |
 | ETHxRateReceiver | 0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE | Arbitrum Sepolia |
+| ETHx ProxyAdmin  | 0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86 | XLayer Testnet   |
+| ETHx             | 0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574 | XLayer Testnet   |
+| ETHx_OFT         | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | XLayer Testnet   |
+| ETHx Wrapper     | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | XLayer Testnet   |
+| ETHxPoolV4       | 0x217EBabCf15EC6deaCF11f737d79275e95C97EFE | XLayer Testnet   |
 | ETHxRateReceiver | 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 | XLayer Testnet   |
 
 
