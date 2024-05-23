@@ -26,7 +26,6 @@ contract OFT is Script {
         ETHx ethx = ETHx(proxy);
         ethx.grantRole(ethx.MINTER_ROLE(), admin);
         ethx.grantRole(ethx.BURNER_ROLE(), admin);
-        ethx.grantRole(ethx.PAUSER_ROLE(), admin);
     }
 
     function setPeer() public {

@@ -202,7 +202,6 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
                     "ETHX": "0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574",
                     "LZ_ENDPOINT": "0x6EDCE65403992e310A62460808c4b910D972f10f",
                     "DELEGATE": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
@@ -258,13 +257,13 @@
         {
             "label": "deployoftadapter",
             "type": "shell",
-            "command": "forge script ./script/OFTAdapter.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "command": "forge script ./script/OFTAdapter.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verifyca",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "ETHX": "0xB4F5fc289a778B80392b86fa70A7111E5bE0F859",
-                    "LZ_ENDPOINT": "0x6edce65403992e310a62460808c4b910d972f10f",
-                    "DELEGATE": "0xfcB068B43AB08aA9210F52eabd261A7a3b0C8357",
+                    "ETHX": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
+                    "LZ_ENDPOINT": "0x1a44076050125825900e736c501f859c50fE728c",
+                    "DELEGATE": "0xc6160F5bC3C673AC390f11c492E8ED0d0693579A",
                 }
             },
             "dependsOn": "test",
@@ -294,14 +293,14 @@
         {
             "label": "quotesend",
             "type": "shell",
-            "command": "forge script ./script/OFTAdapter.s.sol --sig 'quoteSend()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFTAdapter.s.sol --sig 'quoteSend()' --legacy --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "OFT_ADAPTER": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
                     "PEER_EID": "40231",
                     "DEST_ACCOUNT": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
-                    "AMOUNT": "1000000000000000",
+                    "AMOUNT": "10000000000000000",
                     "GAS": "200000"
                 }
             },

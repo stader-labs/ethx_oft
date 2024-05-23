@@ -29,10 +29,11 @@ contract DeployETHx is Script {
     function deployProxy() public {
         address admin = vm.envAddress("ETHX_ADMIN");
         address proxyAdmin = vm.envAddress("PROXY_ADMIN");
+        console.log("ProxyAdmin: ", proxyAdmin);
         address deploymentAdmin = msg.sender;
         vm.startBroadcast();
         ETHx implementation = new ETHx();
-        bytes memory initializationData = abi.encodeWithSelector(ETHx.initialize.selector, admin);
+        bytes memory initializationData = abi.encodeWithSelector(ETHx.initialize.selector, deploymentAdmin);
         TransparentUpgradeableProxy proxy =
             new TransparentUpgradeableProxy(address(implementation), proxyAdmin, initializationData);
         console.log("ETHx deployed to proxy at: ", address(proxy));

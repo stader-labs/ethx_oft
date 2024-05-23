@@ -21,7 +21,7 @@ contract DeployWrapper is Script {
         vm.startBroadcast();
         ETHxTokenWrapper implementation = new ETHxTokenWrapper();
         bytes memory initializationData =
-            abi.encodeWithSelector(ETHxTokenWrapper.initialize.selector, admin, bridger, ethx);
+            abi.encodeWithSelector(ETHxTokenWrapper.initialize.selector, deploymentAdmin, bridger, ethx);
         TransparentUpgradeableProxy proxy =
             new TransparentUpgradeableProxy(address(implementation), proxyAdmin, initializationData);
         console.log("ETHxTokenWrapper deployed to proxy at: ", address(proxy));
@@ -49,7 +49,7 @@ contract DeployWrapper is Script {
         vm.startBroadcast();
         ETHxPoolV4 implementation = new ETHxPoolV4();
         bytes memory initializationData =
-            abi.encodeWithSelector(ETHxTokenWrapper.initialize.selector, admin, bridger, wethx);
+            abi.encodeWithSelector(ETHxTokenWrapper.initialize.selector, deploymentAdmin, bridger, wethx);
         TransparentUpgradeableProxy proxy =
             new TransparentUpgradeableProxy(address(implementation), proxyAdmin, initializationData);
         console.log("ETHxPoolV4 deployed to proxy at: ", address(proxy));
