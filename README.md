@@ -69,7 +69,7 @@ $ forge test -v
 | ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
 | ETHx ProxyAdmin  | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
 | ETHx             | 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859 | Holesky          |
-| ETHx_OFTAdapter  | 0x4D306b4d57BEFdFFB7d98b47e8c8D07CE517D9BF | Holesky          |
+| ETHx_OFTAdapter  | 0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a | Holesky          |
 | ETHx ProxyAdmin  | 0xe6460418db6D7A6D85423560B19A8Af37c1092a4 | Holesky          |
 | ETHx PriceOracle | 0x66C4924Cc30dC47D0c8484143236F465F4e37c9E | Holesky          |
 | ETHxRateProvider | 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 | Holesky          |
@@ -82,6 +82,17 @@ $ forge test -v
 | ETHx Wrapper     | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | XLayer Testnet   |
 | ETHxPoolV4       | 0x217EBabCf15EC6deaCF11f737d79275e95C97EFE | XLayer Testnet   |
 | ETHxRateReceiver | 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 | XLayer Testnet   |
+| ProxyAdmin       | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | Ethereum         |
+| ETHx             | 0xA35b1B31Ce002FBF2058D22F30f95D405200A15b | Ethereum         |
+| ETHx_OFTAdapter  | 0x39d0ce7d1509a4f22619D0f666978FBe820665E9 | Ethereum         |
+| ETHxPriceOracle  | 0x9305d41Ac91A200B848D285242D8e415E6414B2F | Ethereum         |
+| ETHxRateProvider | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | Ethereum         |
+| ETHx ProxyAdmin  | 0x99A7102235A7773003D70bA0f6cc8D97e38ABB53 | XLayer           |
+| ETHx             | 0xDC685bf4b416f8D5cAc64927E9c516be45b81d28 | XLayer           |
+| ETHx_OFT         | 0xC0A0fDD802b2750b7f972C2a7972c8942328099f | XLayer           |
+| ETHxTokenWrapper | 0xDBAaD20ffd67dfaeBdE40b842cB78eAa18F1BB74 | XLayer           |
+| ETHxRateReceiver | 0x063d4c8CFeF375C2Fc1710934504e2b7aB85fd15 | XLayer           |
+| ETHxPoolV4       | 0xaE11a5de90D6eC8b296b5D8cc7d0F262c0074Eef | XLayer           |
 
 
 ### Deployment
