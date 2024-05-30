@@ -4,7 +4,15 @@ pragma solidity ^0.8.22;
 import { Script, console } from "forge-std/Script.sol";
 
 import { OptionsBuilder } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oapp/libs/OptionsBuilder.sol"; // OFT imports
-import { SendParam, OFTReceipt } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/interfaces/IOFT.sol";
+import {
+    SendParam,
+    OFTReceipt,
+    OFTLimit,
+    OFTReceipt,
+    OFTFeeDetail,
+    MessagingReceipt,
+    MessagingFee
+} from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/interfaces/IOFT.sol";
 import { MessagingFee, MessagingReceipt } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCore.sol";
 
 import { ETHx_OFTAdapter } from "../contracts/ETHx_OFTAdapter.sol";
@@ -57,13 +65,21 @@ contract OFTAdapter is Script {
         options = OptionsBuilder.addExecutorLzReceiveOption(options, _gas, 0);
         SendParam memory sendParam =
             SendParam(destEid, addressToBytes32(userAccount), tokensToSend, tokensToSend, options, "", "");
+        (OFTLimit memory limit, OFTFeeDetail[] memory detail, OFTReceipt memory receipt) = adapter.quoteOFT(sendParam);
+        uint256 totalFee = 0;
+        for (uint256 i = 0; i < detail.length; i++) {
+            uint256 feeAmount = uint256(detail[i].feeAmountLD);
+            console.log("Quote send fee: ", feeAmount);
+            console.log("Quote send fee description: ", detail[i].description);
+            totalFee += feeAmount;
+        }
+        console.log("Quote send min: ", limit.minAmountLD);
+        console.log("Quote send max: ", limit.maxAmountLD);
+        console.log("Quote send receipt: ", receipt.amountSentLD);
         vm.startBroadcast();
-        // not working in testnet
-        MessagingFee memory fee = adapter.quoteSend(sendParam, false);
-        //MessagingFee memory fee = MessagingFee(0.0009 ether, 0);
-        console.log("Quote send fee: ", fee.nativeFee);
+        console.log("Send fee: ", totalFee);
         (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt) =
-            adapter.send{ value: fee.nativeFee }(sendParam, fee, payable(userAccount));
+            adapter.send{ value: totalFee }(sendParam, MessagingFee(totalFee, 0), payable(userAccount));
         console.log("Message receipt nonce: ", msgReceipt.nonce);
         console.log("OFT sent: ", oftReceipt.amountSentLD);
         vm.stopBroadcast();
