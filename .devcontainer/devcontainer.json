@@ -24,6 +24,7 @@
 		"ARS_URL": "${localEnv:ARS_URL}",
 		"HOLESKY_URL": "${localEnv:HOLESKY_URL}",
 		"XLAYER_URL": "${localEnv:XLAYER_URL}",
+		"CHIADO_URL": "${localEnv:CHIADO_URL}",
 		"ETHERSCAN_API_KEY": "${localEnv:ETHERSCAN_API_KEY}",
 		"ARBISCAN_API_KEY": "${localEnv:ARBISCAN_API_KEY}"
 	}

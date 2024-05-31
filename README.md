@@ -57,13 +57,23 @@ $ forge test -v
 
 [AUDIT.md](AUDIT.md)
 
-
 ## 3 - Deploying Contracts
 
 ## Contracts Deployed
 
 | Contract         | Address                                    | Network          |
 | ---------------- | ------------------------------------------ | ---------------- |
+| ProxyAdmin       | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | Ethereum         |
+| ETHx             | 0xA35b1B31Ce002FBF2058D22F30f95D405200A15b | Ethereum         |
+| ETHx_OFTAdapter  | 0x39d0ce7d1509a4f22619D0f666978FBe820665E9 | Ethereum         |
+| ETHxPriceOracle  | 0x9305d41Ac91A200B848D285242D8e415E6414B2F | Ethereum         |
+| ETHxRateProvider | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | Ethereum         |
+| ETHx ProxyAdmin  | 0x99A7102235A7773003D70bA0f6cc8D97e38ABB53 | XLayer           |
+| ETHx             | 0xDC685bf4b416f8D5cAc64927E9c516be45b81d28 | XLayer           |
+| ETHx_OFT         | 0xC0A0fDD802b2750b7f972C2a7972c8942328099f | XLayer           |
+| ETHxTokenWrapper | 0xDBAaD20ffd67dfaeBdE40b842cB78eAa18F1BB74 | XLayer           |
+| ETHxRateReceiver | 0x063d4c8CFeF375C2Fc1710934504e2b7aB85fd15 | XLayer           |
+| ETHxPoolV4       | 0xaE11a5de90D6eC8b296b5D8cc7d0F262c0074Eef | XLayer           |
 | ETHx             | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
 | ETHx ProxyAdmin  | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
 | ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
@@ -82,17 +92,11 @@ $ forge test -v
 | ETHx Wrapper     | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | XLayer Testnet   |
 | ETHxPoolV4       | 0x217EBabCf15EC6deaCF11f737d79275e95C97EFE | XLayer Testnet   |
 | ETHxRateReceiver | 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 | XLayer Testnet   |
-| ProxyAdmin       | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | Ethereum         |
-| ETHx             | 0xA35b1B31Ce002FBF2058D22F30f95D405200A15b | Ethereum         |
-| ETHx_OFTAdapter  | 0x39d0ce7d1509a4f22619D0f666978FBe820665E9 | Ethereum         |
-| ETHxPriceOracle  | 0x9305d41Ac91A200B848D285242D8e415E6414B2F | Ethereum         |
-| ETHxRateProvider | 0x0B2fAadfe75fE6507Dc8F81f8331198C65cA2C24 | Ethereum         |
-| ETHx ProxyAdmin  | 0x99A7102235A7773003D70bA0f6cc8D97e38ABB53 | XLayer           |
-| ETHx             | 0xDC685bf4b416f8D5cAc64927E9c516be45b81d28 | XLayer           |
-| ETHx_OFT         | 0xC0A0fDD802b2750b7f972C2a7972c8942328099f | XLayer           |
-| ETHxTokenWrapper | 0xDBAaD20ffd67dfaeBdE40b842cB78eAa18F1BB74 | XLayer           |
-| ETHxRateReceiver | 0x063d4c8CFeF375C2Fc1710934504e2b7aB85fd15 | XLayer           |
-| ETHxPoolV4       | 0xaE11a5de90D6eC8b296b5D8cc7d0F262c0074Eef | XLayer           |
+| ETHx ProxyAdmin  | 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 | Sepolia          |
+| ETHx             | 0xD4a5B7967858f361689C88Af11F3180fc09dF620 | Sepolia          |
+| ETHx ProxyAdmin  | 0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86 | Chiado           |
+| ETHx             | 0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574 | Chiado           |
+| ETHx_OFT         | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | Chiado           |
 
 
 ### Deployment
