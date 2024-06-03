@@ -74,10 +74,15 @@ $ forge test -v
 | ETHxTokenWrapper | 0xDBAaD20ffd67dfaeBdE40b842cB78eAa18F1BB74 | XLayer           |
 | ETHxRateReceiver | 0x063d4c8CFeF375C2Fc1710934504e2b7aB85fd15 | XLayer           |
 | ETHxPoolV4       | 0xaE11a5de90D6eC8b296b5D8cc7d0F262c0074Eef | XLayer           |
-| ETHx             | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
+| ProxyAdmin       | 0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187 | Gnosis           |
+| ETHx             | 0x01aF04690d17DC27b891A7F67E9EEe4d14DE8EA8 | Gnosis           |
+| ETHx_OFT         | 0xAC9da18c76d54a744612e72492838227dF0308bb | Gnosis           |
 | ETHx ProxyAdmin  | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
-| ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
+| ETHx             | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
+| ETHx_OFT         | 0x6904603c27392310D19E389105CA792FB935C43C | Arbitrum         |
 | ETHx ProxyAdmin  | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
+| ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
+| ETHx_OFT         | 0x01aF04690d17DC27b891A7F67E9EEe4d14DE8EA8 | Optimism         |
 | ETHx             | 0xB4F5fc289a778B80392b86fa70A7111E5bE0F859 | Holesky          |
 | ETHx_OFTAdapter  | 0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a | Holesky          |
 | ETHx ProxyAdmin  | 0xe6460418db6D7A6D85423560B19A8Af37c1092a4 | Holesky          |

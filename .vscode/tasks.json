@@ -118,7 +118,7 @@
         {
             "label": "deployproxyadmin",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployAdmin()' --legacy --slow --broadcast --rpc-url ${CHIADO_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployAdmin()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -134,11 +134,11 @@
         {
             "label": "deployethx",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --broadcast --legacy --slow --rpc-url ${CHIADO_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'deployProxy()' --broadcast --legacy --slow --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "PROXY_ADMIN": "0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86",
+                    "PROXY_ADMIN": "0xBe23e1A64969Cb28eFdB6c3d2CE9E4Bf16042187",
                     "ETHX_ADMIN": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
                 }
             },
@@ -181,7 +181,7 @@
         {
             "label": "setupethxgrants",
             "type": "shell",
-            "command": "forge script ./script/DeployETHx.s.sol --sig 'setupGrants()' --slow --broadcast --legacy --rpc-url ${ARS_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployETHx.s.sol --sig 'setupGrants()' --slow --broadcast --legacy --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -198,12 +198,12 @@
         {
             "label": "deployoft",
             "type": "shell",
-            "command": "forge script ./script/OFT.s.sol --sig 'deploy()' --legacy --slow --broadcast --rpc-url ${CHIADO_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFT.s.sol --sig 'deploy()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "ETHX": "0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574",
-                    "LZ_ENDPOINT": "0x6EDCE65403992e310A62460808c4b910D972f10f",
+                    "ETHX": "0x01aF04690d17DC27b891A7F67E9EEe4d14DE8EA8",
+                    "LZ_ENDPOINT": "0x1a44076050125825900e736c501f859c50fE728c",
                     "DELEGATE": "0x2E1F5C7f87096fb7FfFbB6654Fc3b2CE303aEff5",
                 }
             },
@@ -216,7 +216,7 @@
         {
             "label": "deploywrapper",
             "type": "shell",
-            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployWrapper()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployWrapper()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -235,7 +235,7 @@
         {
             "label": "deploypool",
             "type": "shell",
-            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployPool()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployWrapper.s.sol --sig 'deployPool()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -257,7 +257,7 @@
         {
             "label": "deployoftadapter",
             "type": "shell",
-            "command": "forge script ./script/OFTAdapter.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verifyca",
+            "command": "forge script ./script/OFTAdapter.s.sol --sig 'deploy()' --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verifyca",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -275,12 +275,12 @@
         {
             "label": "adaptersetpeer",
             "type": "shell",
-            "command": "forge script ./script/OFTAdapter.s.sol --sig 'setPeer()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFTAdapter.s.sol --sig 'setPeer()' legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
                     "OFT_ADAPTER": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
-                    "PEER_EID": "40269",
+                    "PEER_EID": "40145",
                     "PEER_ADDRESS": "0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898",
                 }
             },
@@ -293,7 +293,7 @@
         {
             "label": "quotesend",
             "type": "shell",
-            "command": "forge script ./script/OFTAdapter.s.sol --sig 'quoteSend()' --legacy --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFTAdapter.s.sol --sig 'quoteFee()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -313,13 +313,13 @@
         {
             "label": "oftsetpeer",
             "type": "shell",
-            "command": "forge script ./script/OFT.s.sol --sig 'setPeer()' --legacy --slow --broadcast --rpc-url ${CHIADO_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/OFT.s.sol --sig 'setPeer()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "OFT": "0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898",
-                    "PEER_EID": "40217",
-                    "PEER_ADDRESS": "0x4a5CC4c467CF043247f4d06Ef0b688aa5C3F7F6a",
+                    "OFT": "0xAC9da18c76d54a744612e72492838227dF0308bb",
+                    "PEER_EID": "30101",
+                    "PEER_ADDRESS": "0x39d0ce7d1509a4f22619D0f666978FBe820665E9",
                 }
             },
             "dependsOn": "test",
@@ -331,7 +331,7 @@
         {
             "label": "deployrateoracle",
             "type": "shell",
-            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProxyOracle()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProxyOracle()' --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -348,7 +348,7 @@
         {
             "label": "deployrateprovider",
             "type": "shell",
-            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProvider()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'deployProvider()' --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY} --etherscan-api-key ${ETHERSCAN_API_KEY} --verify",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -367,7 +367,7 @@
         {
             "label": "deployratereceiver",
             "type": "shell",
-            "command": "forge script ./script/DeployRateReceiver.s.sol --sig 'deployReceiver()' --legacy --slow --broadcast --rpc-url ${XLAYER_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployRateReceiver.s.sol --sig 'deployReceiver()' --legacy --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
@@ -386,7 +386,7 @@
         {
             "label": "wirerateprovider",
             "type": "shell",
-            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'wireProvider()' --slow --broadcast --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY}",
+            "command": "forge script ./script/DeployRateProvider.s.sol --sig 'wireProvider()' --slow --broadcast --rpc-url ${RPC_URL} --private-key ${PRIVATE_KEY}",
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {

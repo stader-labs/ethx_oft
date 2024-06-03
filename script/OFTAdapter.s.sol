@@ -46,6 +46,21 @@ contract OFTAdapter is Script {
         vm.stopBroadcast();
     }
 
+    function quoteFee() public view {
+        address oftAdapter = vm.envAddress("OFT_ADAPTER");
+        uint32 destEid = uint32(vm.envUint("PEER_EID"));
+        address userAccount = vm.envAddress("DEST_ACCOUNT");
+        uint256 tokensToSend = vm.envUint("AMOUNT");
+        uint128 _gas = uint128(vm.envUint("GAS"));
+        ETHx_OFTAdapter adapter = ETHx_OFTAdapter(oftAdapter);
+        bytes memory options = OptionsBuilder.newOptions();
+        options = OptionsBuilder.addExecutorLzReceiveOption(options, _gas, 0);
+        SendParam memory sendParam =
+            SendParam(destEid, addressToBytes32(userAccount), tokensToSend, tokensToSend, options, "", "");
+        MessagingFee memory fee = adapter.quoteSend(sendParam, false);
+        console.log("Quote native fee: ", fee.nativeFee);
+    }
+
     function quoteSend() public {
         address oftAdapter = vm.envAddress("OFT_ADAPTER");
         uint32 destEid = uint32(vm.envUint("PEER_EID"));
@@ -59,9 +74,9 @@ contract OFTAdapter is Script {
             SendParam(destEid, addressToBytes32(userAccount), tokensToSend, tokensToSend, options, "", "");
         vm.startBroadcast();
         // not working in testnet
-        MessagingFee memory fee = adapter.quoteSend(sendParam, false);
-        //MessagingFee memory fee = MessagingFee(0.0009 ether, 0);
-        console.log("Quote send fee: ", fee.nativeFee);
+        //MessagingFee memory fee = adapter.quoteSend(sendParam, false);
+        MessagingFee memory fee = MessagingFee(0.001 ether, 0);
+        console.log("Quote native fee: ", fee.nativeFee);
         (MessagingReceipt memory msgReceipt, OFTReceipt memory oftReceipt) =
             adapter.send{ value: fee.nativeFee }(sendParam, fee, payable(userAccount));
         console.log("Message receipt nonce: ", msgReceipt.nonce);
