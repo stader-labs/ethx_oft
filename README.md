@@ -148,6 +148,8 @@ $ forge script ./script/DeployETHx.s.sol --sig 'deployImplementation()' --broadc
 
 #### Examples
 
+See [UPDATE_RATE.md](UPDATE_RATE.md)
+
 Get fees for L2 to send in LayerZero Transaction.
 
 ```bash
@@ -158,7 +160,7 @@ $cast call 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 "estimateTotalFee()" --rpc
 Update rate on Holesky Testnet:
 
 ```bash
-cast send 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 "updateRate()" --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --value 694954907998545
+cast send 0xbF11aB33C9E1206Fb868b3dbFc8C9cB8D4e6BD79 "updateRate()" --rpc-url ${HOLESKY_URL} --private-key ${PRIVATE_KEY} --value w694954907998545
 status                  1 (success)
 transactionHash         0x1ad899d3094a5d1e92d9e1eda12f507950d9ce7d7c18638209ef6e910ebf8d10
 transactionIndex        18
