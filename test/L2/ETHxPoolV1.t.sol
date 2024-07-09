@@ -150,7 +150,7 @@ contract ETHxPoolV1Test is Test {
         eTHxPoolV1.withdrawFees(vm.addr(0x111));
     }
 
-    function testMoveAssetForBridging(uint256 ethAmount) public {
+    function testWithdrawCollectedETH(uint256 ethAmount) public {
         vm.assume(ethAmount > 0.1 ether && ethAmount < 100 ether);
         vm.prank(admin);
         address user = vm.addr(0x110);
@@ -159,9 +159,34 @@ contract ETHxPoolV1Test is Test {
         vm.prank(user);
         eTHxPoolV1.swapETHToETHx{ value: ethAmount }("referral");
         uint256 feeEarned = eTHxPoolV1.feeEarnedInETH();
-        vm.prank(bridger);
+        vm.prank(admin);
         eTHxPoolV1.withdrawCollectedETH();
-        assertEq(bridger.balance, ethAmount - feeEarned);
+        assertEq(admin.balance, ethAmount - feeEarned);
+    }
+
+    function testWithdrawETHxRequireAdminRole(uint256 ethxAmount) public {
+        vm.expectRevert(
+            "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
+        );
+        eTHxPoolV1.withdrawETHx(ethxAmount);
+    }
+
+    function testWithdrawETHxInvalidAmount(uint256 ethxAmount) public {
+        vm.assume(ethxAmount > 0.1 ether && ethxAmount < 100 ether);
+        vm.startPrank(admin);
+        ERC20Mock(ETHx).mint(address(eTHxPoolV1), ethxAmount / 10);
+        vm.expectRevert(abi.encodeWithSelector(ETHxPoolV1.InvalidAmount.selector));
+        eTHxPoolV1.withdrawETHx(ethxAmount);
+        vm.stopPrank();
+    }
+
+    function testWithdrawETHx(uint256 ethxAmount) public {
+        vm.assume(ethxAmount > 0.1 ether && ethxAmount < 100 ether);
+        vm.startPrank(admin);
+        ERC20Mock(ETHx).mint(address(eTHxPoolV1), ethxAmount);
+        eTHxPoolV1.withdrawETHx(ethxAmount);
+        assertEq(ERC20Mock(ETHx).balanceOf(admin), ethxAmount);
+        vm.stopPrank();
     }
 
     function mockProxyDeploy(address ethxPool) private {

@@ -40,6 +40,8 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     event FeesWithdrawn(uint256 feeEarnedInETH);
     /// @notice Emitted when deposited ETH is withdrawn
     event WithdrawCollectedETH(uint256 ethBalanceMinusFees);
+    /// @notice Emitted when provisioned ETHx is withdrawn
+    event WithdrawETHx(uint256 amount);
     /// @notice Emitted when basis fee is updated
     event FeeBpsSet(uint256 feeBps);
     /// @notice Emitted when oracle address is updated
@@ -136,7 +138,7 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /// @dev Withdraws collected ETH from the contract
-    function withdrawCollectedETH() external onlyRole(BRIDGER_ROLE) {
+    function withdrawCollectedETH() external onlyRole(DEFAULT_ADMIN_ROLE) {
         // withdraw ETH - fees
         uint256 ethBalanceMinusFees = address(this).balance - feeEarnedInETH;
 
@@ -144,6 +146,15 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
         if (!success) revert TransferFailed();
 
         emit WithdrawCollectedETH(ethBalanceMinusFees);
+    }
+
+    /// @dev Withdraws provisioned ETHx
+    function withdrawETHx(uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (amount > ETHx.balanceOf(address(this))) revert InvalidAmount();
+
+        ETHx.safeTransfer(msg.sender, amount);
+
+        emit WithdrawETHx(amount);
     }
 
     /// @dev Sets the fee basis points
