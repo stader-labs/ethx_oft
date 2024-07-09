@@ -18,7 +18,7 @@ interface AggregatorV3Interface {
         returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);
 }
 
-contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
+contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     using SafeERC20 for IERC20;
 
     /// @notice Role hash of BRIDGER
