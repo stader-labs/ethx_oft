@@ -99,7 +99,7 @@ contract ETHxPoolV5Test is Test {
     function testDepositRequiresNonZeroAmount() public {
         vm.prank(admin);
         vm.expectRevert(ETHxPoolV5.InvalidAmount.selector);
-        eTHxPoolV5.deposit{ value: 0 }("referral");
+        eTHxPoolV5.swapETHToETHx{ value: 0 }("referral");
     }
 
     function testSwapETHForETHx(uint256 ethAmount) public {
@@ -109,7 +109,7 @@ contract ETHxPoolV5Test is Test {
         vm.prank(admin);
         ERC20Mock(ETHx).mint(address(eTHxPoolV5), ethAmount);
         vm.prank(user);
-        eTHxPoolV5.deposit{ value: ethAmount }("referral");
+        eTHxPoolV5.swapETHToETHx{ value: ethAmount }("referral");
         uint256 expectedBalance = ethAmount - (ethAmount * FEE_BPS / 10_000);
         assertEq(ERC20Mock(ETHx).balanceOf(user), expectedBalance);
         (uint256 _amtLessFee,) = eTHxPoolV5.viewSwapETHxAmountAndFee(ethAmount);
@@ -133,7 +133,7 @@ contract ETHxPoolV5Test is Test {
         ERC20Mock(ETHx).mint(address(eTHxPoolV5), ethAmount);
         vm.deal(user, ethAmount);
         vm.prank(user);
-        eTHxPoolV5.deposit{ value: ethAmount }("referral");
+        eTHxPoolV5.swapETHToETHx{ value: ethAmount }("referral");
         uint256 expectedBalance = ethAmount - (ethAmount * FEE_BPS / 10_000);
         assertEq(ERC20Mock(ETHx).balanceOf(user), expectedBalance);
         (, uint256 feeAmnt) = eTHxPoolV5.viewSwapETHxAmountAndFee(ethAmount);
@@ -157,10 +157,10 @@ contract ETHxPoolV5Test is Test {
         vm.deal(user, ethAmount);
         ERC20Mock(ETHx).mint(address(eTHxPoolV5), ethAmount);
         vm.prank(user);
-        eTHxPoolV5.deposit{ value: ethAmount }("referral");
+        eTHxPoolV5.swapETHToETHx{ value: ethAmount }("referral");
         uint256 feeEarned = eTHxPoolV5.feeEarnedInETH();
         vm.prank(bridger);
-        eTHxPoolV5.moveAssetsForBridging();
+        eTHxPoolV5.withdrawCollectedETH();
         assertEq(bridger.balance, ethAmount - feeEarned);
     }
 

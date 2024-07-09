@@ -23,8 +23,8 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
 
     /// @notice Role hash of BRIDGER
     bytes32 public constant BRIDGER_ROLE = keccak256("BRIDGER_ROLE");
-    /// @notice Base rate of ETHx/ETH
-    uint256 public constant ETHX_BASE_RATE = 1e18;
+    /// @notice Conversion factor from ether to wei
+    uint256 public constant ETHER_TO_WEI = 1e18;
     /// @notice Address of ETHx token
     IERC20 public ETHx;
     /// @notice Basis points for fees
@@ -39,7 +39,7 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     /// @notice Emitted when accumulated fees is withdrawn
     event FeesWithdrawn(uint256 feeEarnedInETH);
     /// @notice Emitted when deposited ETH is withdrawn
-    event AssetsMovedForBridging(uint256 ethBalanceMinusFees);
+    event WithdrawCollectedETH(uint256 ethBalanceMinusFees);
     /// @notice Emitted when basis fee is updated
     event FeeBpsSet(uint256 feeBps);
     /// @notice Emitted when oracle address is updated
@@ -83,6 +83,7 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
         _setupRole(BRIDGER_ROLE, _bridger);
+        _setupRole(BRIDGER_ROLE, _admin);
 
         ETHx = IERC20(_ethx);
         feeBps = _feeBps;
@@ -91,7 +92,7 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
 
     /// @dev Swaps ETH for ETHx
     /// @param _referralId The referral id
-    function deposit(string memory _referralId) external payable nonReentrant {
+    function swapETHToETHx(string memory _referralId) external payable nonReentrant {
         uint256 amount = msg.value;
 
         if (amount == 0) revert InvalidAmount();
@@ -116,7 +117,7 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
         (, int256 ethxToEthRate,,,) = AggregatorV3Interface(ethxOracle).latestRoundData();
 
         // Calculate the final ETHx amount
-        ethxAmount = amountAfterFee * ETHX_BASE_RATE / uint256(ethxToEthRate);
+        ethxAmount = amountAfterFee * ETHER_TO_WEI / uint256(ethxToEthRate);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -134,15 +135,15 @@ contract ETHxPoolV5 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
         emit FeesWithdrawn(amountToSendInETH);
     }
 
-    /// @dev Withdraws assets from the contract for bridging
-    function moveAssetsForBridging() external onlyRole(BRIDGER_ROLE) {
+    /// @dev Withdraws collected ETH from the contract
+    function withdrawCollectedETH() external onlyRole(BRIDGER_ROLE) {
         // withdraw ETH - fees
         uint256 ethBalanceMinusFees = address(this).balance - feeEarnedInETH;
 
         (bool success,) = msg.sender.call{ value: ethBalanceMinusFees }("");
         if (!success) revert TransferFailed();
 
-        emit AssetsMovedForBridging(ethBalanceMinusFees);
+        emit WithdrawCollectedETH(ethBalanceMinusFees);
     }
 
     /// @dev Sets the fee basis points
