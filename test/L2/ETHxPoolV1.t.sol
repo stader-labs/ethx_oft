@@ -10,7 +10,7 @@ contract ETHxPoolV1Test is Test {
     uint256 private constant ETHX_RATE = 1 ether;
     uint256 private constant FEE_BPS = 1000;
     address private admin;
-    address private bridger;
+    address private manager;
 
     address private oracle;
     address private ETHx;
@@ -20,7 +20,7 @@ contract ETHxPoolV1Test is Test {
     function setUp() public {
         vm.clearMockedCalls();
         admin = vm.addr(0x100);
-        bridger = vm.addr(0x101);
+        manager = vm.addr(0x101);
         address pool = vm.addr(0x1000);
 
         ETHx = vm.addr(0x1001);
@@ -28,12 +28,12 @@ contract ETHxPoolV1Test is Test {
         mockRateOracle(oracle);
         mockErc20(ETHx, "ETHx");
 
-        eTHxPoolV1 = mockETHxPoolV1(pool, admin, bridger, ETHx, FEE_BPS, oracle);
+        eTHxPoolV1 = mockETHxPoolV1(pool, admin, manager, ETHx, FEE_BPS, oracle);
     }
 
     function testInitialization() public {
         assertEq(address(eTHxPoolV1.ETHx()), ETHx);
-        assertTrue(eTHxPoolV1.hasRole(keccak256("BRIDGER_ROLE"), bridger));
+        assertTrue(eTHxPoolV1.hasRole(keccak256("MANAGER_ROLE"), manager));
         assertTrue(eTHxPoolV1.hasRole(0x0, admin));
     }
 
@@ -138,14 +138,14 @@ contract ETHxPoolV1Test is Test {
         assertEq(ERC20Mock(ETHx).balanceOf(user), expectedBalance);
         (, uint256 feeAmnt) = eTHxPoolV1.viewSwapETHxAmountAndFee(ethAmount);
         address _owner = vm.addr(0x111);
-        vm.prank(bridger);
+        vm.prank(manager);
         eTHxPoolV1.withdrawFees(_owner);
         assertEq(_owner.balance, feeAmnt);
     }
 
-    function testWithdrawFeesRequiresBridgerRole() public {
+    function testWithdrawFeesRequiresManagerRole() public {
         vm.expectRevert(
-            "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0xc809a7fd521f10cdc3c068621a1c61d5fd9bb3f1502a773e53811bc248d919a8"
+            "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x241ecf16d79d0f8dbfb92cbc07fe17840425976cf0667f022fe9877caa831b08"
         );
         eTHxPoolV1.withdrawFees(vm.addr(0x111));
     }
@@ -166,7 +166,7 @@ contract ETHxPoolV1Test is Test {
 
     function testWithdrawETHxRequireAdminRole(uint256 ethxAmount) public {
         vm.expectRevert(
-            "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x0000000000000000000000000000000000000000000000000000000000000000"
+            "AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x241ecf16d79d0f8dbfb92cbc07fe17840425976cf0667f022fe9877caa831b08"
         );
         eTHxPoolV1.withdrawETHx(ethxAmount);
     }
@@ -214,7 +214,7 @@ contract ETHxPoolV1Test is Test {
     function mockETHxPoolV1(
         address ethxPool,
         address _admin,
-        address _bridger,
+        address _manager,
         address _ETHx,
         uint256 _feeBps,
         address _ethxOracle
@@ -224,7 +224,7 @@ contract ETHxPoolV1Test is Test {
     {
         mockProxyDeploy(ethxPool);
         ETHxPoolV1 mock = ETHxPoolV1(ethxPool);
-        mock.initialize(_admin, _bridger, _ETHx, _feeBps, _ethxOracle);
+        mock.initialize(_admin, _manager, _ETHx, _feeBps, _ethxOracle);
         return mock;
     }
 }

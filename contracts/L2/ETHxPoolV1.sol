@@ -21,8 +21,8 @@ interface AggregatorV3Interface {
 contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     using SafeERC20 for IERC20;
 
-    /// @notice Role hash of BRIDGER
-    bytes32 public constant BRIDGER_ROLE = keccak256("BRIDGER_ROLE");
+    /// @notice Role hash of MANAGER
+    bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
     /// @notice Conversion factor from ether to wei
     uint256 public constant ETHER_TO_WEI = 1e18;
     /// @notice Address of ETHx token
@@ -63,13 +63,13 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
 
     /// @dev Initialize the contract
     /// @param _admin The admin address
-    /// @param _bridger The bridger address
+    /// @param _manager The manager address
     /// @param _ethx The ETHx token address
     /// @param _feeBps The fee basis points
     /// @param _ethxOracle The ethxOracle address
     function initialize(
         address _admin,
-        address _bridger,
+        address _manager,
         address _ethx,
         uint256 _feeBps,
         address _ethxOracle
@@ -84,8 +84,8 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
         __ReentrancyGuard_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-        _setupRole(BRIDGER_ROLE, _bridger);
-        _setupRole(BRIDGER_ROLE, _admin);
+        _setupRole(MANAGER_ROLE, _manager);
+        _setupRole(MANAGER_ROLE, _admin);
 
         ETHx = IERC20(_ethx);
         feeBps = _feeBps;
@@ -127,7 +127,7 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     //////////////////////////////////////////////////////////////*/
 
     /// @dev Withdraws fees earned by the pool
-    function withdrawFees(address _receiver) external onlyRole(BRIDGER_ROLE) {
+    function withdrawFees(address _receiver) external onlyRole(MANAGER_ROLE) {
         // withdraw fees in ETH
         uint256 amountToSendInETH = feeEarnedInETH;
         feeEarnedInETH = 0;
@@ -138,7 +138,7 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /// @dev Withdraws collected ETH from the contract
-    function withdrawCollectedETH() external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function withdrawCollectedETH() external onlyRole(MANAGER_ROLE) {
         // withdraw ETH - fees
         uint256 ethBalanceMinusFees = address(this).balance - feeEarnedInETH;
 
@@ -149,7 +149,7 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     /// @dev Withdraws provisioned ETHx
-    function withdrawETHx(uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function withdrawETHx(uint256 amount) external onlyRole(MANAGER_ROLE) {
         if (amount > ETHx.balanceOf(address(this))) revert InvalidAmount();
 
         ETHx.safeTransfer(msg.sender, amount);
