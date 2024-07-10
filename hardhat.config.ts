@@ -9,6 +9,7 @@ import 'hardhat-deploy'
 import 'hardhat-contract-sizer'
 import '@nomiclabs/hardhat-ethers'
 import '@layerzerolabs/toolbox-hardhat'
+import "@nomicfoundation/hardhat-verify";
 
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
@@ -85,8 +86,8 @@ const config: HardhatUserConfig = {
         // Your API key for Etherscan
         // Obtain one at https://etherscan.io/
         apiKey: {
-          holesky: process.env.API_KEY,
-          arbitrum: process.env.ARBITRUM_API_KEY
+          holesky: process.env.API_KEY || "",
+          arbitrum: process.env.ARBITRUM_API_KEY || ""
         },
         customChains: [
           {
