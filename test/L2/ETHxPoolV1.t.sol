@@ -64,6 +64,13 @@ contract ETHxPoolV1Test is Test {
         eTHxPoolV1.setFeeBps(feeBps);
     }
 
+    function testSetFeeHighFees(uint256 feeBps) public {
+        vm.assume(feeBps > 1000 && feeBps <= 10_000);
+        vm.prank(admin);
+        vm.expectRevert(abi.encodeWithSelector(ETHxPoolV1.HighFees.selector));
+        eTHxPoolV1.setFeeBps(feeBps);
+    }
+
     function testSetFeeAdminRequired() public {
         address nonAdmin = vm.addr(0x102);
         vm.prank(nonAdmin);

@@ -53,6 +53,8 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     error InvalidAmount();
     /// @dev Thrown when input is invalid basis fee
     error InvalidBps();
+    /// @dev Thrown when input fee is too high
+    error HighFees();
     /// @dev Thrown when transfer is failed
     error TransferFailed();
 
@@ -161,6 +163,7 @@ contract ETHxPoolV1 is AccessControlUpgradeable, ReentrancyGuardUpgradeable {
     /// @param _feeBps The fee basis points
     function setFeeBps(uint256 _feeBps) external onlyRole(DEFAULT_ADMIN_ROLE) {
         if (_feeBps > 10_000) revert InvalidBps();
+        if (_feeBps > 1000) revert HighFees();
 
         feeBps = _feeBps;
 
