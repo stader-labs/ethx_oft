@@ -80,6 +80,8 @@ $ forge test -v
 | ETHx ProxyAdmin  | 0xAAE054B9b822554dd1D9d1F48f892B4585D3bbf0 | Arbitrum         |
 | ETHx             | 0xED65C5085a18Fa160Af0313E60dcc7905E944Dc7 | Arbitrum         |
 | ETHx_OFT         | 0x6904603c27392310D19E389105CA792FB935C43C | Arbitrum         |
+| ETHxPoolV1       | 0x107E427848937C4217C0efc1C3f35091de08E45e | Arbitrum         |
+| ETHxPoolV1 ProxyAdmin | 0xe9609DcbC830784b3b68D5b4162c5193Df5dfA98 | Arbitrum    |
 | ETHx ProxyAdmin  | 0x8bc3646d175ECb081469Be6a0b2A10eeE112101C | Optimism         |
 | ETHx             | 0xc54B43eaF921A5194c7973A4d65E055E5a1453c2 | Optimism         |
 | ETHx_OFT         | 0x01aF04690d17DC27b891A7F67E9EEe4d14DE8EA8 | Optimism         |
@@ -91,6 +93,8 @@ $ forge test -v
 | ETHx             | 0x52312ea29135A468417F0C71d6A75CfEA75351b7 | Arbitrum Sepolia |
 | ETHx_OFT         | 0x8AEDA11bD0C5fBafbFb142830d23812Df02A8424 | Arbitrum Sepolia |
 | ETHxRateReceiver | 0x2b700f8b3F03798e7Db0e67a5aB48c12D10046DE | Arbitrum Sepolia |
+| ETHxPoolV1       | 0xA6457927857107c1B6EBe82fe0d17E78ba03cb6A | Arbitrum Sepolia |
+| ETHxPoolV1 ProxyAdmin | 0xe7a85781f16403C9AF078C81e603F8465870df7B | Arbitrum Sepolia    |
 | ETHx ProxyAdmin  | 0xb30256CA8A9Ebe058Eb78a4edbf3364e7F8e5d86 | XLayer Testnet   |
 | ETHx             | 0x7D03Bfa72Cd70e96A391cF32e7B27e43AE68a574 | XLayer Testnet   |
 | ETHx_OFT         | 0xD99E8bA5259Dd2b8B9aBFE0eD78913ec60B8F898 | XLayer Testnet   |
